@@ -6,12 +6,11 @@
 <title>Services — Budget Hardware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body data-page="services">
 
-<!-- NAV -->
 <nav id="nav" class="scrolled">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
@@ -28,9 +27,11 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV PANEL -->
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
     <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
@@ -43,61 +44,65 @@
 </div>
 
 <div class="page active" id="page-services">
- <section style="position:relative;padding:160px 80px 80px;overflow:hidden;">
+  <section style="position:relative;padding:180px 80px 100px;overflow:hidden;">
     <div style="position:absolute;inset:0;z-index:0;">
-      <img src="../Budget-Hardware-Website/images/serviceshero.jpg" alt="Services hero" style="width:100%;height:100%;object-fit:cover;"/>
-      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);"></div>
+      <img src="images/serviceshero.jpg" alt="Services" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.45) saturate(0.75);"/>
     </div>
     <div style="position:relative;z-index:1;">
-      <p class="section-eyebrow" style="color:rgba(255,255,255,0.6)">What We Offer</p>
-      <h2 class="section-h2" style="font-size:clamp(40px,5vw,64px);max-width:600px;color:#fff">Services designed for professionals at every scale.</h2>
+      <p class="section-eyebrow" style="color:rgba(184,149,90,0.8)">What We Offer</p>
+      <h2 class="section-h2" style="color:#fff;font-size:clamp(40px,5vw,68px);max-width:640px">Services designed for professionals at every scale.</h2>
     </div>
   </section>
+
   <div class="services-list">
-    <div class="service-row">
+    <div class="service-row reveal">
       <span class="svc-num">01</span>
       <div class="svc-name">Contractor Support</div>
       <div class="svc-desc">Dedicated account management for contractors. Priority stock access, streamlined invoicing, and a single point of contact for all your supply needs. Available to businesses with a verified trade account.</div>
     </div>
-    <div class="service-row">
+    <div class="service-row reveal">
       <span class="svc-num">02</span>
       <div class="svc-name">Bulk Orders</div>
       <div class="svc-desc">Volume pricing for large material orders. Submit a project materials list and receive a comprehensive quote within 24 hours. Ideal for developers, contractors, and site managers handling multi-unit or large-scale builds.</div>
     </div>
-    <div class="service-row">
+    <div class="service-row reveal">
       <span class="svc-num">03</span>
       <div class="svc-name">Delivery Services</div>
       <div class="svc-desc">Fleet delivery across the region, with scheduled or next-day options available. Heavy materials handled by our trained delivery crew. GPS-tracked from warehouse to site — you'll know exactly when it arrives.</div>
     </div>
-    <div class="service-row">
+    <div class="service-row reveal">
       <span class="svc-num">04</span>
       <div class="svc-name">Project Consultation</div>
       <div class="svc-desc">Sit down with one of our experienced advisors to plan your material requirements. We'll review your drawings, specifications, or site survey and recommend the right products and quantities to avoid waste or shortfall.</div>
     </div>
-    <div class="service-row" style="border-bottom:none">
+    <div class="service-row reveal" style="border-bottom:none">
       <span class="svc-num">05</span>
       <div class="svc-name">Product Sourcing</div>
       <div class="svc-desc">If it's not in our catalogue, we'll find it. Our sourcing team has relationships with over 200 manufacturers and distributors. Specialist materials, custom specifications, imported products — submit a request and we'll get back within 48 hours.</div>
     </div>
   </div>
-  <section style="background:var(--ink);padding:100px 80px">
-    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+
+  <section style="background:var(--ink);padding:120px 80px">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center">
       <div>
-        <p class="section-eyebrow" style="color:rgba(255,255,255,0.4)">Get Started</p>
-        <h2 class="section-h2" style="color:#fff">Ready to open a trade account?</h2>
-        <p class="section-body" style="color:rgba(255,255,255,0.5);margin-bottom:36px">Budget Hardware trade accounts unlock bulk pricing, priority stock, extended payment terms, and dedicated account support.</p>
-        <button class="btn-primary" onclick="goPage('contact')">Apply for Trade Account</button>
+        <p class="section-eyebrow reveal" style="color:rgba(184,149,90,0.7)">Get Started</p>
+        <div class="divider reveal reveal-delay-1"></div>
+        <h2 class="section-h2 reveal reveal-delay-1" style="color:#fff">Ready to open a trade account?</h2>
+        <p class="section-body reveal reveal-delay-2" style="color:rgba(255,255,255,0.4);margin-bottom:40px">Budget Hardware trade accounts unlock bulk pricing, priority stock, extended payment terms, and dedicated account support.</p>
+        <button class="btn-primary reveal reveal-delay-3" onclick="goPage('contact')">Apply for Trade Account</button>
       </div>
-      <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80" alt="Professional contractors" style="width:100%;aspect-ratio:4/3;object-fit:cover" loading="lazy"/>
+      <img class="reveal-right" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80" alt="Professional contractors" style="width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(0.8)" loading="lazy"/>
     </div>
   </section>
+
   <footer>
     <div class="footer-inner">
+      <div class="footer-gold-line"></div>
       <div class="footer-top">
-        <div><div class="footer-brand">Budget Hardware</div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
+        <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
         <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
         <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a>+266 50 123 456</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Contact</h4><a>+266 50 000 000</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>

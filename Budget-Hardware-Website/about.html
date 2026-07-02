@@ -6,12 +6,11 @@
 <title>About Us — Budget Hardware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body data-page="about">
 
-<!-- NAV -->
 <nav id="nav" class="scrolled">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
@@ -28,9 +27,11 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV PANEL -->
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
     <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
@@ -47,21 +48,21 @@
     <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80" alt="Modern warehouse" loading="lazy"/>
     <div class="about-hero-content">
       <div>
-        <p class="section-eyebrow" style="color:rgba(255,255,255,0.45)">Our Story</p>
-        <h2 class="section-h2">Three decades of building the builders.</h2>
+        <p class="section-eyebrow" style="color:rgba(184,149,90,0.8)">Our Story</p>
+        <h2 class="section-h2">Three decades of<br>building the builders.</h2>
       </div>
     </div>
   </div>
 
-  <section class="about-body">
+  <section class="about-body" style="background:var(--white);padding:120px 80px">
     <div class="about-grid">
       <div>
-        <p class="section-eyebrow">Mission</p>
-        <div class="divider"></div>
-        <h2 class="section-h2">We exist to empower every builder.</h2>
-        <p class="section-body" style="margin-bottom:20px">Budget Hardware was founded in 1992 with a single conviction: that professionals deserve access to the same quality materials that large construction firms take for granted.</p>
-        <p class="section-body">Today, we supply over 8,000 contractors, architects, and builders across the region with hardware, materials, and expertise that elevate every project.</p>
-        <div class="values-grid" style="margin-top:48px">
+        <p class="section-eyebrow reveal">Mission</p>
+        <div class="divider reveal reveal-delay-1"></div>
+        <h2 class="section-h2 reveal reveal-delay-1">We exist to empower<br>every builder.</h2>
+        <p class="section-body reveal reveal-delay-2" style="margin-bottom:20px">Budget Hardware was founded in 1992 with a single conviction: that professionals deserve access to the same quality materials that large construction firms take for granted.</p>
+        <p class="section-body reveal reveal-delay-2">Today, we supply over 8,000 contractors, architects, and builders across the region with hardware, materials, and expertise that elevate every project.</p>
+        <div class="values-grid reveal reveal-delay-3">
           <div class="value-card">
             <div class="value-title">Quality First</div>
             <div class="value-desc">Every product is vetted by our team. We only carry what we'd use ourselves.</div>
@@ -72,7 +73,7 @@
           </div>
           <div class="value-card" style="background:var(--bg)">
             <div class="value-title">Deep Inventory</div>
-            <div class="value-desc">12,000+ products in stock. If we don't have it, we'll source it.</div>
+            <div class="value-desc">12,000+ products in stock. If we don't have it, we'll source it within 48 hours.</div>
           </div>
           <div class="value-card">
             <div class="value-title">Local Roots</div>
@@ -81,28 +82,13 @@
         </div>
       </div>
       <div>
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Construction site" style="width:100%;aspect-ratio:3/4;object-fit:cover;margin-bottom:2px" loading="lazy"/>
+        <img class="reveal-right" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Construction site" style="width:100%;aspect-ratio:3/4;object-fit:cover;margin-bottom:2px" loading="lazy"/>
         <div class="timeline">
-          <div class="tl-item">
-            <span class="tl-year">1992</span>
-            <span class="tl-desc">Founded in Maseru with a 500m² warehouse and a team of four.</span>
-          </div>
-          <div class="tl-item">
-            <span class="tl-year">2001</span>
-            <span class="tl-desc">Expanded to three locations and launched our contractor account program.</span>
-          </div>
-          <div class="tl-item">
-            <span class="tl-year">2010</span>
-            <span class="tl-desc">Reached 5,000 active professional accounts. Launched fleet delivery service.</span>
-          </div>
-          <div class="tl-item">
-            <span class="tl-year">2018</span>
-            <span class="tl-desc">Opened flagship 4,000m² warehouse. Became authorized Bosch & Makita dealer.</span>
-          </div>
-          <div class="tl-item">
-            <span class="tl-year">2024</span>
-            <span class="tl-desc">12,000+ products across 6 locations. Still family-owned. Still quality-first.</span>
-          </div>
+          <div class="tl-item reveal"><span class="tl-year">1992</span><span class="tl-desc">Founded in Maseru with a 500m² warehouse and a team of four.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2001</span><span class="tl-desc">Expanded to three locations and launched our contractor account program.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2010</span><span class="tl-desc">Reached 5,000 active professional accounts. Launched fleet delivery service.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2018</span><span class="tl-desc">Opened flagship 4,000m² warehouse. Became authorized Bosch & Makita dealer.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2024</span><span class="tl-desc">12,000+ products across 6 locations. Still family-owned. Still quality-first.</span></div>
         </div>
       </div>
     </div>
@@ -110,11 +96,12 @@
 
   <footer>
     <div class="footer-inner">
+      <div class="footer-gold-line"></div>
       <div class="footer-top">
         <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
         <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
         <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a>+266 50 123 456</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Contact</h4><a>+266 50 000 000</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>

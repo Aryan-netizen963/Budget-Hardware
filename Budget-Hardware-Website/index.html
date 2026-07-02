@@ -6,12 +6,11 @@
 <title>Budget Hardware — Premium Hardware & Building Solutions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body data-page="home">
 
-<!-- NAV -->
 <nav id="nav" class="transparent">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
@@ -28,9 +27,11 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV PANEL -->
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
     <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
@@ -45,14 +46,15 @@
 <div class="page active" id="page-home">
 
   <!-- HERO -->
-  <section style="padding:0; margin:0;" class="hero">
+  <section style="padding:0;margin:0;" class="hero">
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-word">BUILD</div>
+    <div class="hero-line"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Est. 1992 — Premium Supply</p>
-      <h1 class="hero-h1">Building Solutions<br>For Every Project.</h1>
-      <p class="hero-sub">Quality hardware, building materials, tools, plumbing, electrical, paints, and construction essentials — for professionals and homeowners alike.</p>
+      <p class="hero-eyebrow">Est. 1992 — Maseru, Lesotho</p>
+      <h1 class="hero-h1">Building Solutions<br><em>For Every Project.</em></h1>
+      <p class="hero-sub">Quality hardware, building materials, tools, and construction essentials — trusted by over 8,000 professionals across the region.</p>
       <div class="hero-btns">
         <button class="btn-primary" onclick="goPage('categories')">Explore Categories</button>
         <button class="btn-ghost" onclick="goPage('contact')">Visit Store</button>
@@ -64,15 +66,33 @@
     </div>
   </section>
 
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Bosch</span>
+      <span class="marquee-item">Makita</span>
+      <span class="marquee-item">Milwaukee</span>
+      <span class="marquee-item">Stanley</span>
+      <span class="marquee-item">DeWalt</span>
+      <span class="marquee-item">AfriSam</span>
+      <span class="marquee-item">Hilti</span>
+      <span class="marquee-item">Sika</span>
+      <span class="marquee-item">Schneider</span>
+      <span class="marquee-item">Grohe</span>
+      <span class="marquee-item">3M</span>
+      <span class="marquee-item">Knauf</span>
+    </div>
+  </div>
+
   <!-- INTRO -->
   <section class="intro">
     <div class="intro-grid">
       <div>
-        <p class="section-eyebrow">Our Foundation</p>
-        <div class="divider"></div>
-        <h2 class="section-h2">Where craft meets precision.</h2>
-        <p class="section-body">For over three decades, Budget Hardware has been the trusted partner for builders, architects, and contractors who refuse to compromise. We source materials that meet the demands of serious work.</p>
-        <div class="intro-stat-grid">
+        <p class="section-eyebrow reveal">Our Foundation</p>
+        <div class="divider reveal reveal-delay-1"></div>
+        <h2 class="section-h2 reveal reveal-delay-1">Where craft<br>meets precision.</h2>
+        <p class="section-body reveal reveal-delay-2">For over three decades, Budget Hardware has been the trusted partner for builders, architects, and contractors who refuse to compromise. We source materials that meet the demands of serious work.</p>
+        <div class="intro-stat-grid reveal reveal-delay-3">
           <div class="stat-cell">
             <div class="stat-num">12K+</div>
             <div class="stat-label">Products</div>
@@ -91,69 +111,95 @@
           </div>
         </div>
       </div>
-      <div class="intro-img-wrap">
-        <img class="intro-img active" src="../Budget-Hardware-Website/images/intro1.jpg" alt="Premium warehouse interior" loading="lazy"/>
-        <img class="intro-img" src="../Budget-Hardware-Website/images/intro2.jpg" alt="Power tools" loading="lazy"/>
-        <img class="intro-img" src="../Budget-Hardware-Website/images/intro3.jpg" alt="Building materials" loading="lazy"/>
+      <div class="intro-img-wrap reveal-right">
+        <img class="intro-img active" src="images/intro1.jpg" alt="Warehouse interior" loading="lazy"/>
+        <img class="intro-img" src="images/intro2.jpg" alt="Power tools" loading="lazy"/>
+        <img class="intro-img" src="images/intro3.jpg" alt="Building materials" loading="lazy"/>
       </div>
+    </div>
   </section>
-  
 
-  <!-- CATEGORIES STRIP -->
+  <!-- CATEGORIES — Magazine Layout -->
   <section class="cats-strip">
-    <div class="cats-header">
+    <div class="cats-header reveal">
       <div>
         <p class="section-eyebrow">What We Carry</p>
         <h2 class="section-h2">Six categories,<br>every material.</h2>
       </div>
-      <button class="btn-primary" onclick="goPage('categories')" style="flex-shrink:0; background:var(--ink); color:#fff;">View All Categories</button>
+      <button class="btn-dark" onclick="goPage('categories')">View All Categories</button>
     </div>
-    <div class="cats-grid">
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/powertools.jpg" alt="Power Tools" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Power Tools</div><div class="cat-count">340+ products</div></div>
-      </div>
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/buildingmaterials.jpg" alt="Building Materials" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Building Materials</div><div class="cat-count">580+ products</div></div>
-      </div>
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/electricalsupplies.jpg" alt="Electrical Supplies" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Electrical Supplies</div><div class="cat-count">210+ products</div></div>
-      </div>
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/plumbing.jpg" alt="Plumbing Supplies" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Plumbing Supplies</div><div class="cat-count">195+ products</div></div>
-      </div>
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/paint&finishes.jpg" alt="Paints" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Paints & Finishes</div><div class="cat-count">280+ products</div></div>
-      </div>
-      <div class="cat-card" onclick="goPage('categories')">
-        <img src="../Budget-Hardware-Website/images/safety.jpg" alt="Safety Equipment" loading="lazy"/>
-        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info"><div class="cat-name">Safety Equipment</div><div class="cat-count">150+ products</div></div>
-      </div>
-    </div>
-  </section>
 
-  <!-- BRANDS MINI -->
-  <section class="brands-mini">
-    <div class="brands-mini-inner">
-      <p class="section-eyebrow">Trusted Brands</p>
-      <h2 class="section-h2">The industry's best, all in one place.</h2>
-      <div class="brands-row">
-        <div class="brand-logo" onclick="goPage('brands')">Bosch</div>
-        <div class="brand-logo" onclick="goPage('brands')">Makita</div>
-        <div class="brand-logo" onclick="goPage('brands')">Milwaukee</div>
-        <div class="brand-logo" onclick="goPage('brands')">Stanley</div>
-        <div class="brand-logo" onclick="goPage('brands')">DeWalt</div>
-        <div class="brand-logo" onclick="goPage('brands')">AfriSam</div>
+    <div class="cats-magazine">
+      <!-- Column 1: tall card -->
+      <div class="cat-card cat-card-tall reveal reveal-delay-1" onclick="goPage('categories')">
+        <img src="images/powertools.jpg" alt="Power Tools" loading="lazy"/>
+        <div class="cat-card-overlay"></div>
+        <span class="cat-label">01</span>
+        <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div class="cat-info">
+          <div class="cat-name">Power Tools</div>
+          <div class="cat-count">340+ products</div>
+        </div>
+      </div>
+
+      <!-- Column 2: two stacked -->
+      <div class="cats-col-stacked">
+        <div class="cat-card cat-card-half reveal reveal-delay-2" onclick="goPage('categories')">
+          <img src="images/electricalsupplies.jpg" alt="Electrical Supplies" loading="lazy"/>
+          <div class="cat-card-overlay"></div>
+          <span class="cat-label">03</span>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div class="cat-info">
+            <div class="cat-name">Electrical Supplies</div>
+            <div class="cat-count">210+ products</div>
+          </div>
+        </div>
+        <div class="cat-card cat-card-half reveal reveal-delay-3" onclick="goPage('categories')">
+          <img src="images/plumbing.jpg" alt="Plumbing" loading="lazy"/>
+          <div class="cat-card-overlay"></div>
+          <span class="cat-label">04</span>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div class="cat-info">
+            <div class="cat-name">Plumbing Supplies</div>
+            <div class="cat-count">195+ products</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: tall card -->
+      <div class="cats-col-stacked">
+        <div class="cat-card cat-card-half reveal reveal-delay-2" onclick="goPage('categories')">
+          <img src="images/buildingmaterials.jpg" alt="Building Materials" loading="lazy"/>
+          <div class="cat-card-overlay"></div>
+          <span class="cat-label">02</span>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div class="cat-info">
+            <div class="cat-name">Building Materials</div>
+            <div class="cat-count">580+ products</div>
+          </div>
+        </div>
+        <div class="cats-col-stacked" style="gap:3px">
+          <div class="cat-card reveal reveal-delay-3" style="aspect-ratio:2/1" onclick="goPage('categories')">
+            <img src="images/paint&finishes.jpg" alt="Paints" loading="lazy"/>
+            <div class="cat-card-overlay"></div>
+            <span class="cat-label">05</span>
+            <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            <div class="cat-info">
+              <div class="cat-name">Paints & Finishes</div>
+              <div class="cat-count">280+ products</div>
+            </div>
+          </div>
+          <div class="cat-card reveal reveal-delay-4" style="aspect-ratio:2/1" onclick="goPage('categories')">
+            <img src="images/safety.jpg" alt="Safety Equipment" loading="lazy"/>
+            <div class="cat-card-overlay"></div>
+            <span class="cat-label">06</span>
+            <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            <div class="cat-info">
+              <div class="cat-name">Safety Equipment</div>
+              <div class="cat-count">150+ products</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -162,53 +208,60 @@
   <section class="feature-split">
     <div class="feature-split-inner">
       <div>
-        <p class="section-eyebrow">Why Budget Hardware</p>
-        <div class="divider"></div>
-        <h2 class="section-h2">Built for the professionals who build everything else.</h2>
-        <p class="section-body">From residential renovations to commercial construction, Budget Hardware supports every scale of project with sourcing depth, expert consultation, and reliable delivery.</p>
+        <p class="section-eyebrow reveal">Why Budget Hardware</p>
+        <div class="divider reveal reveal-delay-1"></div>
+        <h2 class="section-h2 reveal reveal-delay-1">Built for the professionals who build everything else.</h2>
+        <p class="section-body reveal reveal-delay-2">From residential renovations to commercial construction, Budget Hardware supports every scale of project with sourcing depth, expert consultation, and reliable delivery.</p>
         <div class="feature-list">
-          <div class="feature-item"><span class="feature-num">01</span><span class="feature-text">Expert product sourcing — if we don't have it, we'll find it</span></div>
-          <div class="feature-item"><span class="feature-num">02</span><span class="feature-text">Same-day bulk order fulfillment for contractors</span></div>
-          <div class="feature-item"><span class="feature-num">03</span><span class="feature-text">Dedicated project consultation and material planning</span></div>
-          <div class="feature-item"><span class="feature-num">04</span><span class="feature-text">Fleet delivery across the region — on your schedule</span></div>
+          <div class="feature-item reveal reveal-delay-2"><span class="feature-dot"></span><span class="feature-text">Expert product sourcing — if we don't have it, we'll find it within 48 hours</span></div>
+          <div class="feature-item reveal reveal-delay-3"><span class="feature-dot"></span><span class="feature-text">Same-day bulk order fulfilment for verified contractor accounts</span></div>
+          <div class="feature-item reveal reveal-delay-3"><span class="feature-dot"></span><span class="feature-text">Dedicated project consultation and material quantity planning</span></div>
+          <div class="feature-item reveal reveal-delay-4"><span class="feature-dot"></span><span class="feature-text">GPS-tracked fleet delivery across the region — on your schedule</span></div>
         </div>
       </div>
-      <img class="feature-img" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80" alt="Modern construction project" loading="lazy"/>
+      <img class="feature-img reveal-right" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80" alt="Modern construction project" loading="lazy"/>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- BRANDS MINI -->
+  <section class="brands-mini">
+    <div class="brands-mini-inner">
+      <p class="section-eyebrow reveal">Trusted Partners</p>
+      <h2 class="section-h2 reveal reveal-delay-1">The industry's best,<br>all in one place.</h2>
+      <div class="brands-row">
+        <div class="brand-logo reveal reveal-delay-1" onclick="goPage('brands')">Bosch</div>
+        <div class="brand-logo reveal reveal-delay-2" onclick="goPage('brands')">Makita</div>
+        <div class="brand-logo reveal reveal-delay-2" onclick="goPage('brands')">Milwaukee</div>
+        <div class="brand-logo reveal reveal-delay-3" onclick="goPage('brands')">Stanley</div>
+        <div class="brand-logo reveal reveal-delay-3" onclick="goPage('brands')">DeWalt</div>
+        <div class="brand-logo reveal reveal-delay-4" onclick="goPage('brands')">AfriSam</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA DARK -->
+  <section style="background:var(--ink);padding:100px 80px;text-align:center">
+    <p class="section-eyebrow reveal" style="color:rgba(184,149,90,0.6);text-align:center">Trade Accounts</p>
+    <h2 class="section-h2 reveal reveal-delay-1" style="color:#fff;max-width:580px;margin:0 auto 24px;text-align:center">Six locations across Maseru — always nearby.</h2>
+    <p class="reveal reveal-delay-2" style="color:rgba(255,255,255,0.38);font-size:15px;max-width:400px;margin:0 auto 44px;line-height:1.8;text-align:center">Walk in any time during business hours. Trade accounts welcome. No appointment needed.</p>
+    <button class="btn-primary reveal reveal-delay-3" onclick="goPage('contact')">Open a Trade Account</button>
+  </section>
+
   <footer>
     <div class="footer-inner">
+      <div class="footer-gold-line"></div>
       <div class="footer-top">
         <div>
           <div class="footer-brand">Budget <em>Hardware</em></div>
           <p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p>
         </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a onclick="goPage('about')">About Us</a>
-          <a onclick="goPage('services')">Services</a>
-          <a onclick="goPage('brands')">Brands</a>
-          <a onclick="goPage('contact')">Contact</a>
-        </div>
-        <div class="footer-col">
-          <h4>Categories</h4>
-          <a onclick="goPage('categories')">Power Tools</a>
-          <a onclick="goPage('categories')">Building Materials</a>
-          <a onclick="goPage('categories')">Electrical</a>
-          <a onclick="goPage('categories')">Plumbing</a>
-        </div>
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a>+266 50 123 456</a>
-          <a>info@budgethardware.com</a>
-          <a onclick="goPage('contact')">Find a Store</a>
-        </div>
+        <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
+        <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
+        <div class="footer-col"><h4>Contact</h4><a>+266 50 000 000</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
       </div>
       <div class="footer-bottom">
         <span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span>
-        <span class="footer-copy">Premium Building Solutions</span>
+        <span class="footer-copy">Premium Building Solutions · Maseru, Lesotho</span>
       </div>
     </div>
   </footer>

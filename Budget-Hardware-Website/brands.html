@@ -6,12 +6,11 @@
 <title>Brands — Budget Hardware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body data-page="brands">
 
-<!-- NAV -->
 <nav id="nav" class="scrolled">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
@@ -28,9 +27,11 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV PANEL -->
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
     <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
@@ -43,28 +44,29 @@
 </div>
 
 <div class="page active" id="page-brands">
-  <section style="background:var(--ink);padding:160px 80px 80px">
-    <p class="section-eyebrow" style="color:rgba(255,255,255,0.4)">Brand Partners</p>
-    <h2 class="section-h2" style="color:#fff;font-size:clamp(40px,5vw,64px);max-width:600px">The world's best tools, under one roof.</h2>
+  <section style="background:var(--ink);padding:180px 80px 100px">
+    <p class="section-eyebrow" style="color:rgba(184,149,90,0.7)">Brand Partners</p>
+    <h2 class="section-h2" style="color:#fff;font-size:clamp(40px,5vw,68px);max-width:640px">The world's best tools,<br>under one roof.</h2>
   </section>
+
   <section style="background:var(--bg);padding:100px 80px">
-    <div style="max-width:1200px;margin:0 auto">
-      <p class="section-eyebrow">Featured Partners</p>
-      <div style="height:1px;background:var(--border);margin:20px 0 48px"></div>
-      <div class="brands-featured">
-        <div class="brand-cell" style="padding:0px;overflow:hidden;;">
-          <img src="../Budget-Hardware-Website/images/bosch.jpg" alt="Bosch" style="width:100%;height:100%;object-fit:cover;"/>
+    <div style="max-width:1280px;margin:0 auto">
+      <p class="section-eyebrow reveal">Featured Partners</p>
+      <div style="height:1px;background:var(--border);margin:20px 0 52px"></div>
+      <div class="brands-featured reveal reveal-delay-1">
+        <div class="brand-cell" style="padding:0;overflow:hidden;">
+          <img src="images/bosch.jpg" alt="Bosch" style="width:100%;height:100%;object-fit:cover;"/>
         </div>
         <div class="brand-cell" style="padding:0;overflow:hidden;">
-          <img src="../Budget-Hardware-Website/images/makita.jpg" alt="Makita" style="width:100%;height:100%;object-fit:cover;"/>
+          <img src="images/makita.jpg" alt="Makita" style="width:100%;height:100%;object-fit:cover;"/>
         </div>
         <div class="brand-cell">
           <div class="brand-cell-dot"></div>
           <div class="brand-cell-name">Milwaukee</div>
           <div class="brand-cell-tag">Heavy-Duty Power Tools</div>
         </div>
-       <div class="brand-cell" style="padding:0;overflow:hidden;">
-          <img src="../Budget-Hardware-Website/images/stanley.jpg" alt="Stanley" style="width:100%;height:auto;object-fit:contain;"/>
+        <div class="brand-cell" style="padding:0;overflow:hidden;">
+          <img src="images/stanley.jpg" alt="Stanley" style="width:100%;height:auto;object-fit:contain;"/>
         </div>
         <div class="brand-cell" style="background:var(--bg)">
           <div class="brand-cell-dot"></div>
@@ -72,10 +74,10 @@
           <div class="brand-cell-tag">Professional Power Tools</div>
         </div>
         <div class="brand-cell" style="padding:0;overflow:hidden;">
-          <img src="../Budget-Hardware-Website/images/afrisam.jpg" alt="Afrisam" style="width:100%;height:100%;object-fit:cover;"/>
+          <img src="images/afrisam.jpg" alt="Afrisam" style="width:100%;height:100%;object-fit:cover;"/>
         </div>
       </div>
-      <div class="brands-all">
+      <div class="brands-all reveal reveal-delay-2">
         <div class="brand-all-cell">Hilti</div>
         <div class="brand-all-cell">Knauf</div>
         <div class="brand-all-cell">Sika</div>
@@ -91,25 +93,28 @@
       </div>
     </div>
   </section>
-  <section style="background:var(--white);padding:100px 80px">
-    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
-      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=80" alt="Tools" style="width:100%;aspect-ratio:1;object-fit:cover" loading="lazy"/>
+
+  <section style="background:var(--white);padding:120px 80px">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center">
+      <img class="reveal-left" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=80" alt="Tools" style="width:100%;aspect-ratio:1;object-fit:cover;filter:saturate(0.85)" loading="lazy"/>
       <div>
-        <p class="section-eyebrow">Authorised Dealer</p>
-        <div class="divider"></div>
-        <h2 class="section-h2">Direct from the manufacturer to your project.</h2>
-        <p class="section-body">As an authorized dealer for all brands we carry, every product is guaranteed authentic, covered by manufacturer warranty, and supported by factory-trained technical staff in-store.</p>
-        <button class="btn-primary" onclick="goPage('contact')" style="background:var(--ink);color:#fff;margin-top:36px">Enquire About a Brand</button>
+        <p class="section-eyebrow reveal">Authorised Dealer</p>
+        <div class="divider reveal reveal-delay-1"></div>
+        <h2 class="section-h2 reveal reveal-delay-1">Direct from the manufacturer to your project.</h2>
+        <p class="section-body reveal reveal-delay-2">As an authorized dealer for all brands we carry, every product is guaranteed authentic, covered by manufacturer warranty, and supported by factory-trained technical staff in-store.</p>
+        <button class="btn-dark reveal reveal-delay-3" onclick="goPage('contact')" style="margin-top:40px">Enquire About a Brand</button>
       </div>
     </div>
   </section>
+
   <footer>
     <div class="footer-inner">
+      <div class="footer-gold-line"></div>
       <div class="footer-top">
         <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
         <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
         <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a>+266 50 123 456</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Contact</h4><a>+266 50 000 000</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>

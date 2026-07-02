@@ -6,12 +6,11 @@
 <title>Contact — Budget Hardware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body data-page="contact">
 
-<!-- NAV -->
 <nav id="nav" class="scrolled">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
@@ -28,9 +27,11 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV PANEL -->
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
     <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
@@ -43,20 +44,20 @@
 </div>
 
 <div class="page active" id="page-contact">
-  <section style="position:relative;padding:160px 80px 80px;overflow:hidden;">
+  <section style="position:relative;padding:180px 80px 100px;overflow:hidden;">
     <div style="position:absolute;inset:0;z-index:0;">
-      <img src="../Budget-Hardware-Website/images/contacthero.jpg" alt="Contact hero" style="width:100%;height:100%;object-fit:cover;"/>
-      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);"></div>
+      <img src="images/contacthero.jpg" alt="Contact" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4) saturate(0.7);"/>
     </div>
     <div style="position:relative;z-index:1;">
-      <p class="section-eyebrow" style="color:rgba(255,255,255,0.6)">Get in Touch</p>
-      <h2 class="section-h2" style="font-size:clamp(40px,5vw,64px);max-width:600px;color:#fff">Let's talk about your next project.</h2>
+      <p class="section-eyebrow" style="color:rgba(184,149,90,0.8)">Get in Touch</p>
+      <h2 class="section-h2" style="color:#fff;font-size:clamp(40px,5vw,68px);max-width:620px">Let's talk about<br>your next project.</h2>
     </div>
   </section>
+
   <div class="contact-body">
     <div class="contact-grid">
-      <div class="contact-form-side">
-        <p class="section-eyebrow" style="margin-bottom:36px">Send a Message</p>
+      <div class="contact-form-side reveal-left">
+        <p class="section-eyebrow" style="margin-bottom:44px">Send a Message</p>
         <div class="form-group">
           <label class="form-label">Full Name</label>
           <input class="form-input" type="text" placeholder="Thabo Mokone"/>
@@ -82,15 +83,16 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </div>
-      <div class="contact-info-side" style="background:var(--ink)">
-        <p class="section-eyebrow" style="margin-bottom:36px">Store Information</p>
+
+      <div class="contact-info-side reveal-right">
+        <p class="section-eyebrow" style="color:rgba(184,149,90,0.7);margin-bottom:44px">Store Information</p>
         <div class="info-item">
           <div class="info-label">Main Location</div>
-          <div class="info-val">23 Motsoene Road Behind Industrial Area Post Office<br>Maseru 105, Lesotho </div>
+          <div class="info-val">23 Motsoene Road, Behind Industrial Area Post Office<br>Maseru 105, Lesotho</div>
         </div>
         <div class="info-item">
           <div class="info-label">Phone</div>
-          <div class="info-val">+266 50000000</div>
+          <div class="info-val">+266 50 000 000</div>
         </div>
         <div class="info-item">
           <div class="info-label">Email</div>
@@ -104,33 +106,32 @@
             <div class="hours-row"><span>Public Holidays</span><span>10:00 AM – 4:00 PM</span></div>
           </div>
         </div>
-       <div style="margin-top:40px;width:100%;height:360px;overflow:hidden;border-radius:4px;">
+        <div style="margin-top:44px;width:100%;height:320px;overflow:hidden;border-radius:4px;opacity:0.85">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2904.0882127969085!2d27.476179074836107!3d-29.297909897059874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e8dcb754306aab1%3A0xaba335930c9a79a5!2sBudget%20Hardware!5e1!3m2!1sen!2seg!4v1782140284608!5m2!1sen!2seg"
-            width="100%"
-            height="360"
-            style="border:0;display:block;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+            width="100%" height="320" style="border:0;display:block;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+         </iframe>
         </div>
       </div>
     </div>
   </div>
+
   <section style="background:var(--ink);padding:100px 80px;text-align:center">
-    <p class="section-eyebrow" style="color:rgba(255,255,255,0.35);text-align:center">Ready to Supply</p>
-    <h2 class="section-h2" style="color:#fff;max-width:560px;margin:16px auto 24px;text-align:center">Six locations across Maseru — always nearby.</h2>
-    <p style="color:rgba(255,255,255,0.45);font-size:15px;max-width:400px;margin:0 auto 40px;line-height:1.7">Walk in any time during business hours. Trade accounts welcome. No appointment needed.</p>
-    <button class="btn-primary">Get Directions</button>
+    <p class="section-eyebrow reveal" style="color:rgba(184,149,90,0.6);text-align:center">Ready to Supply</p>
+    <h2 class="section-h2 reveal reveal-delay-1" style="color:#fff;max-width:560px;margin:16px auto 24px;text-align:center">Six locations across Maseru — always nearby.</h2>
+    <p class="reveal reveal-delay-2" style="color:rgba(255,255,255,0.38);font-size:15px;max-width:400px;margin:0 auto 44px;line-height:1.8;text-align:center">Walk in any time during business hours. Trade accounts welcome. No appointment needed.</p>
+    <button class="btn-primary reveal reveal-delay-3">Get Directions</button>
   </section>
+
   <footer>
     <div class="footer-inner">
+      <div class="footer-gold-line"></div>
       <div class="footer-top">
         <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
         <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
         <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a>+266 50 123 456</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Contact</h4><a>+266 50 000 000</a><a>info@budgethardware.com</a><a onclick="goPage('contact')">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>
