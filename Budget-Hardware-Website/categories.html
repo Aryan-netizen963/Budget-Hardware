@@ -11,7 +11,7 @@
 </head>
 <body data-page="categories">
 
-<nav id="nav" class="scrolled">
+<nav id="nav" class="transparent">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
     <ul class="nav-links">
@@ -29,8 +29,8 @@
 
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
-  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
-  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <button class="nav-mobile-close" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
@@ -50,8 +50,9 @@
   </div>
 
   <div class="cats-full">
+    <!-- Each cat-full-img gets img-curtain for the curtain wipe reveal -->
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-left"><img src="images/powertools.jpg" alt="Power Tools" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-left"><img src="images/powertools.jpg" alt="Power Tools" loading="lazy"/></div>
       <div class="cat-full-text reveal-right">
         <span class="cat-tag">Category 01</span>
         <h3 class="cat-full-h3">Power Tools</h3>
@@ -59,7 +60,7 @@
       </div>
     </div>
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-right"><img src="images/buildingmaterials.jpg" alt="Building Materials" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-right"><img src="images/buildingmaterials.jpg" alt="Building Materials" loading="lazy"/></div>
       <div class="cat-full-text reveal-left">
         <span class="cat-tag">Category 02</span>
         <h3 class="cat-full-h3">Building Materials</h3>
@@ -67,7 +68,7 @@
       </div>
     </div>
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-left"><img src="images/electricalsupplies.jpg" alt="Electrical Supplies" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-left"><img src="images/electricalsupplies.jpg" alt="Electrical Supplies" loading="lazy"/></div>
       <div class="cat-full-text reveal-right">
         <span class="cat-tag">Category 03</span>
         <h3 class="cat-full-h3">Electrical Supplies</h3>
@@ -75,7 +76,7 @@
       </div>
     </div>
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-right"><img src="images/plumbing.jpg" alt="Plumbing" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-right"><img src="images/plumbing.jpg" alt="Plumbing" loading="lazy"/></div>
       <div class="cat-full-text reveal-left">
         <span class="cat-tag">Category 04</span>
         <h3 class="cat-full-h3">Plumbing Supplies</h3>
@@ -83,7 +84,7 @@
       </div>
     </div>
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-left"><img src="images/paint&finishes.jpg" alt="Paints" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-left"><img src="images/paint&finishes.jpg" alt="Paints" loading="lazy"/></div>
       <div class="cat-full-text reveal-right">
         <span class="cat-tag">Category 05</span>
         <h3 class="cat-full-h3">Paints & Finishes</h3>
@@ -91,7 +92,7 @@
       </div>
     </div>
     <div class="cat-full-item">
-      <div class="cat-full-img reveal-right"><img src="images/safety.jpg" alt="Safety Equipment" loading="lazy"/></div>
+      <div class="cat-full-img img-curtain reveal-right"><img src="images/safety.jpg" alt="Safety Equipment" loading="lazy"/></div>
       <div class="cat-full-text reveal-left">
         <span class="cat-tag">Category 06</span>
         <h3 class="cat-full-h3">Safety Equipment</h3>

@@ -11,7 +11,7 @@
 </head>
 <body data-page="services">
 
-<nav id="nav" class="scrolled">
+<nav id="nav" class="transparent">
   <div class="nav-inner">
     <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
     <ul class="nav-links">
@@ -29,8 +29,8 @@
 
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
-  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
-  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <button class="nav-mobile-close" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
@@ -82,6 +82,8 @@
     </div>
   </div>
 
+  <div class="seam" style="max-width:none;width:100%"></div>
+
   <section style="background:var(--ink);padding:120px 80px">
     <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center">
       <div>
@@ -91,7 +93,9 @@
         <p class="section-body reveal reveal-delay-2" style="color:rgba(255,255,255,0.4);margin-bottom:40px">Budget Hardware trade accounts unlock bulk pricing, priority stock, extended payment terms, and dedicated account support.</p>
         <button class="btn-primary reveal reveal-delay-3" onclick="goPage('contact')">Apply for Trade Account</button>
       </div>
-      <img class="reveal-right" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80" alt="Professional contractors" style="width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(0.8)" loading="lazy"/>
+      <div class="img-curtain reveal-right depth-far">
+        <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80" alt="Professional contractors" style="width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(0.8)" loading="lazy"/>
+      </div>
     </div>
   </section>
 

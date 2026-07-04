@@ -29,8 +29,8 @@
 
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
 <div class="nav-mobile-panel" id="navMobilePanel">
-  <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">
-  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <button class="nav-mobile-close" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
   <ul class="nav-mobile-links">
     <li><a onclick="goPage('home')" data-page="home">Home</a></li>
@@ -92,26 +92,15 @@
         <div class="divider reveal reveal-delay-1"></div>
         <h2 class="section-h2 reveal reveal-delay-1">Where craft<br>meets precision.</h2>
         <p class="section-body reveal reveal-delay-2">For over three decades, Budget Hardware has been the trusted partner for builders, architects, and contractors who refuse to compromise. We source materials that meet the demands of serious work.</p>
-        <div class="intro-stat-grid reveal reveal-delay-3">
-          <div class="stat-cell">
-            <div class="stat-num">12K+</div>
-            <div class="stat-label">Products</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">32</div>
-            <div class="stat-label">Years</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">8K</div>
-            <div class="stat-label">Contractors</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-num">6</div>
-            <div class="stat-label">Locations</div>
-          </div>
+        <div class="intro-stat-grid reveal reveal-delay-3 depth-far">
+          <div class="stat-cell"><div class="stat-num">12K+</div><div class="stat-label">Products</div></div>
+          <div class="stat-cell"><div class="stat-num">32</div><div class="stat-label">Years</div></div>
+          <div class="stat-cell"><div class="stat-num">8K</div><div class="stat-label">Contractors</div></div>
+          <div class="stat-cell"><div class="stat-num">6</div><div class="stat-label">Locations</div></div>
         </div>
       </div>
-      <div class="intro-img-wrap reveal-right">
+      <!-- img-curtain wraps the slideshow for the curtain reveal -->
+      <div class="intro-img-wrap img-curtain reveal-right">
         <img class="intro-img active" src="images/intro1.jpg" alt="Warehouse interior" loading="lazy"/>
         <img class="intro-img" src="images/intro2.jpg" alt="Power tools" loading="lazy"/>
         <img class="intro-img" src="images/intro3.jpg" alt="Building materials" loading="lazy"/>
@@ -119,7 +108,9 @@
     </div>
   </section>
 
-  <!-- CATEGORIES — Magazine Layout -->
+  <div class="seam" style="padding:0 80px;box-sizing:border-box;max-width:none;width:100%"></div>
+
+  <!-- CATEGORIES — Bento Magazine -->
   <section class="cats-strip">
     <div class="cats-header reveal">
       <div>
@@ -130,53 +121,41 @@
     </div>
 
     <div class="cats-magazine">
-      <!-- Column 1: tall card -->
+      <!-- Col 1: tall -->
       <div class="cat-card cat-card-tall reveal reveal-delay-1" onclick="goPage('categories')">
         <img src="images/powertools.jpg" alt="Power Tools" loading="lazy"/>
         <div class="cat-card-overlay"></div>
         <span class="cat-label">01</span>
         <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <div class="cat-info">
-          <div class="cat-name">Power Tools</div>
-          <div class="cat-count">340+ products</div>
-        </div>
+        <div class="cat-info"><div class="cat-name">Power Tools</div><div class="cat-count">340+ products</div></div>
       </div>
 
-      <!-- Column 2: two stacked -->
+      <!-- Col 2: two stacked -->
       <div class="cats-col-stacked">
         <div class="cat-card cat-card-half reveal reveal-delay-2" onclick="goPage('categories')">
           <img src="images/electricalsupplies.jpg" alt="Electrical Supplies" loading="lazy"/>
           <div class="cat-card-overlay"></div>
           <span class="cat-label">03</span>
           <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-          <div class="cat-info">
-            <div class="cat-name">Electrical Supplies</div>
-            <div class="cat-count">210+ products</div>
-          </div>
+          <div class="cat-info"><div class="cat-name">Electrical Supplies</div><div class="cat-count">210+ products</div></div>
         </div>
         <div class="cat-card cat-card-half reveal reveal-delay-3" onclick="goPage('categories')">
           <img src="images/plumbing.jpg" alt="Plumbing" loading="lazy"/>
           <div class="cat-card-overlay"></div>
           <span class="cat-label">04</span>
           <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-          <div class="cat-info">
-            <div class="cat-name">Plumbing Supplies</div>
-            <div class="cat-count">195+ products</div>
-          </div>
+          <div class="cat-info"><div class="cat-name">Plumbing Supplies</div><div class="cat-count">195+ products</div></div>
         </div>
       </div>
 
-      <!-- Column 3: tall card -->
+      <!-- Col 3: half + two mini -->
       <div class="cats-col-stacked">
         <div class="cat-card cat-card-half reveal reveal-delay-2" onclick="goPage('categories')">
           <img src="images/buildingmaterials.jpg" alt="Building Materials" loading="lazy"/>
           <div class="cat-card-overlay"></div>
           <span class="cat-label">02</span>
           <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-          <div class="cat-info">
-            <div class="cat-name">Building Materials</div>
-            <div class="cat-count">580+ products</div>
-          </div>
+          <div class="cat-info"><div class="cat-name">Building Materials</div><div class="cat-count">580+ products</div></div>
         </div>
         <div class="cats-col-stacked" style="gap:3px">
           <div class="cat-card reveal reveal-delay-3" style="aspect-ratio:2/1" onclick="goPage('categories')">
@@ -184,25 +163,21 @@
             <div class="cat-card-overlay"></div>
             <span class="cat-label">05</span>
             <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-            <div class="cat-info">
-              <div class="cat-name">Paints & Finishes</div>
-              <div class="cat-count">280+ products</div>
-            </div>
+            <div class="cat-info"><div class="cat-name">Paints & Finishes</div><div class="cat-count">280+ products</div></div>
           </div>
           <div class="cat-card reveal reveal-delay-4" style="aspect-ratio:2/1" onclick="goPage('categories')">
             <img src="images/safety.jpg" alt="Safety Equipment" loading="lazy"/>
             <div class="cat-card-overlay"></div>
             <span class="cat-label">06</span>
             <div class="cat-arrow"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-            <div class="cat-info">
-              <div class="cat-name">Safety Equipment</div>
-              <div class="cat-count">150+ products</div>
-            </div>
+            <div class="cat-info"><div class="cat-name">Safety Equipment</div><div class="cat-count">150+ products</div></div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="seam" style="padding:0 80px;box-sizing:border-box;max-width:none;width:100%"></div>
 
   <!-- FEATURE SPLIT -->
   <section class="feature-split">
@@ -219,9 +194,14 @@
           <div class="feature-item reveal reveal-delay-4"><span class="feature-dot"></span><span class="feature-text">GPS-tracked fleet delivery across the region — on your schedule</span></div>
         </div>
       </div>
-      <img class="feature-img reveal-right" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80" alt="Modern construction project" loading="lazy"/>
+      <!-- img-curtain + depth-far on feature image -->
+      <div class="img-curtain reveal-right depth-far">
+        <img class="feature-img" src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&q=80" alt="Modern construction project" loading="lazy"/>
+      </div>
     </div>
   </section>
+
+  <div class="seam" style="padding:0 80px;box-sizing:border-box;max-width:none;width:100%"></div>
 
   <!-- BRANDS MINI -->
   <section class="brands-mini">
