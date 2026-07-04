@@ -206,7 +206,7 @@ function initCurtains() {
 }
 
 /* ══════════════════════════════════════════════
-   GOLD SEAM LINES
+   ACCENT LINE REVEAL
    ══════════════════════════════════════════════ */
 function initSeams() {
   const io = new IntersectionObserver(entries => {
