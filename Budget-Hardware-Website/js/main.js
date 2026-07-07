@@ -206,7 +206,7 @@ function initCurtains() {
 }
 
 /* ══════════════════════════════════════════════
-   ACCENT LINE REVEAL
+   GOLD SEAM LINES
    ══════════════════════════════════════════════ */
 function initSeams() {
   const io = new IntersectionObserver(entries => {
@@ -302,20 +302,7 @@ function initStats() {
   track.parentElement.appendChild(clone);
 })();
 
-(function() {
-  const strip = document.querySelector('.marquee-strip');
-  if (!strip) return;
-  let lastY = window.scrollY;
 
-  window.addEventListener('scroll', () => {
-    const v     = Math.abs(window.scrollY - lastY);
-    lastY       = window.scrollY;
-    const speed = Math.min(1 + v * 0.07, 4.5);  // cap 4.5x
-    strip.style.setProperty('--marquee-speed', speed.toFixed(2));
-    clearTimeout(strip._decay);
-    strip._decay = setTimeout(() => strip.style.setProperty('--marquee-speed', 1), 450);
-  }, { passive: true });
-})();
 
 /* ══════════════════════════════════════════════
    THREE-LAYER HERO PARALLAX

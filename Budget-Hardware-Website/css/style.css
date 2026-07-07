@@ -19,7 +19,6 @@
   --border:   #DDE8F2;
   --sans:     'Inter', system-ui, sans-serif;
   --serif:    'Playfair Display', Georgia, serif;
-  --marquee-speed: 1;
 }
 
 html { scroll-behavior: smooth; }
@@ -345,7 +344,7 @@ section { padding: 120px 80px; }
 .scroll-label { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
 
 /* ══════════════════════════════════════════════
-   MARQUEE
+   MARQUEE — constant speed, not linked to scroll
    ══════════════════════════════════════════════ */
 .marquee-strip {
   background: var(--blue); overflow: hidden;
@@ -354,7 +353,6 @@ section { padding: 120px 80px; }
 .marquee-track {
   display: inline-flex; gap: 0;
   animation: marqueeScroll 28s linear infinite;
-  animation-duration: calc(28s / var(--marquee-speed, 1));
 }
 .marquee-item {
   font-family: var(--serif); font-size: 15px; font-weight: 400; color: #fff;
@@ -393,7 +391,8 @@ section { padding: 120px 80px; }
 .intro-img.active { opacity: 1; }
 
 /* ══════════════════════════════════════════════
-   CATEGORIES — Bento Magazine Grid
+   CATEGORIES — Fixed-height mosaic
+   No dead space, all cards flush, different sizes
    ══════════════════════════════════════════════ */
 .cats-strip { background: var(--bg); padding: 120px 80px; }
 .cats-header {
@@ -402,46 +401,44 @@ section { padding: 120px 80px; }
 }
 .cats-header .section-h2 { margin-bottom: 0; }
 
-/* Bento grid with perspective for 3D tilt */
 .cats-magazine {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.5fr;
-  gap: 3px;
+  grid-template-columns: 1.4fr 1fr 1.4fr;
+  grid-template-rows: 1fr;
+  gap: 2px;
   max-width: 1280px; margin: 0 auto;
+  height: 640px;
   perspective: 1400px;
-  transition: grid-template-columns 0.75s cubic-bezier(0.16,1,0.3,1);
-}
-/* Bento expand — hovered column claims more space */
-.cats-magazine:has(> .cat-card-tall:first-child:hover) {
-  grid-template-columns: 1.95fr 0.9fr 1.15fr;
-}
-.cats-magazine:has(> .cats-col-stacked:nth-child(2):hover) {
-  grid-template-columns: 1.2fr 1.6fr 1.2fr;
-}
-.cats-magazine:has(> .cats-col-stacked:nth-child(3):hover) {
-  grid-template-columns: 1.15fr 0.9fr 1.95fr;
 }
 
-.cats-col-stacked { display: grid; grid-template-rows: 1fr 1fr; gap: 3px; }
+.cats-col-stacked {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2px;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
 
 .cat-card {
   position: relative; overflow: hidden; cursor: none;
   background: var(--ink2);
+  height: 100%; width: 100%;
+  min-height: 0; min-width: 0;
   transform-style: preserve-3d;
   will-change: transform;
   transition: box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);
 }
 .cat-card:hover { box-shadow: 0 32px 64px -20px rgba(0,0,0,0.55); z-index: 2; }
-.cat-card-tall { aspect-ratio: 3/4; }
-.cat-card-half { aspect-ratio: 4/3; }
 
 .cat-card img {
+  position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
   transition: transform 0.95s cubic-bezier(0.16,1,0.3,1), filter 0.5s ease;
   filter: brightness(0.6) saturate(0.85);
   will-change: transform, filter;
 }
-.cat-card:hover img { filter: brightness(0.42) saturate(0.7); }
+.cat-card:hover img { transform: scale(1.07); filter: brightness(0.42) saturate(0.7); }
 
 .cat-card-overlay {
   position: absolute; inset: 0;
@@ -635,7 +632,8 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 36px; }
 .footer-copy { font-size: 12px; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
 .footer-copy em { font-style: italic; color: var(--blue-light); opacity: 0.65; }
-.footer-accent-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--blue-light), transparent); opacity: 0.26; margin-bottom: 48px; }
+.footer-accent-line,
+.footer-gold-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--blue-light), transparent); opacity: 0.26; margin-bottom: 48px; }
 
 /* ══════════════════════════════════════════════
    NATIVE CSS SCROLL-DRIVEN DEPTH (modern browsers)
@@ -674,12 +672,6 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .nav-menu-btn { display: flex; }
-  /* Bento expand disabled on tablet */
-  .cats-magazine:has(> .cat-card-tall:first-child:hover),
-  .cats-magazine:has(> .cats-col-stacked:nth-child(2):hover),
-  .cats-magazine:has(> .cats-col-stacked:nth-child(3):hover) {
-    grid-template-columns: 1.5fr 1fr 1.5fr;
-  }
 }
 @media (max-width: 900px) {
   section { padding: 80px 32px; }
@@ -690,9 +682,9 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
   .hero-line { left: 32px; }
   .intro-grid, .about-grid, .contact-grid, .feature-split-inner { grid-template-columns: 1fr; }
   .intro-stat-grid { grid-template-columns: 1fr 1fr; }
-  .cats-magazine { grid-template-columns: 1fr 1fr; }
-  .cats-col-stacked { grid-template-rows: auto; }
-  .cat-card-tall { aspect-ratio: 4/3; }
+  .cats-magazine { grid-template-columns: 1fr 1fr; height: auto; }
+  .cats-col-stacked { grid-template-rows: 1fr 1fr; height: auto; }
+  .cat-card { min-height: 260px; }
   .cat-full-item { grid-template-columns: 1fr; }
   .cat-full-item:nth-child(even) .cat-full-img { order: 0; }
   .cat-full-item:nth-child(even) .cat-full-text { order: 1; }
@@ -717,9 +709,9 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
   .hero-btns { flex-direction: column; align-items: stretch; }
   .hero-btns button { width: 100%; text-align: center; justify-content: center; }
   section { padding: 64px 24px; }
-  .cats-magazine { grid-template-columns: 1fr; gap: 3px; }
-  .cats-col-stacked { grid-template-rows: auto auto; gap: 3px; }
-  .cat-card-tall { aspect-ratio: 4/3; }
+  .cats-magazine { grid-template-columns: 1fr; gap: 2px; height: auto; }
+  .cats-col-stacked { grid-template-rows: auto auto; gap: 2px; }
+  .cat-card { min-height: 240px; }
   .cats-header { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
   .brands-featured { grid-template-columns: 1fr; }
   .brands-all { grid-template-columns: 1fr 1fr; }
