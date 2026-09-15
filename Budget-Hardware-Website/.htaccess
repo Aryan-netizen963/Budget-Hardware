@@ -1,0 +1,21 @@
+# Force HTTPS — visitors on http:// get redirected to the secure version.
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Compress text assets on the way out.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript
+</IfModule>
+
+# Let browsers cache images and static assets instead of refetching them.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png  "access plus 1 month"
+  ExpiresByType text/css   "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# Don't serve directory listings if a folder has no index file.
+Options -Indexes
