@@ -19,10 +19,24 @@
   --border:   #DDE8F2;
   --sans:     'Inter', system-ui, sans-serif;
   --serif:    'Playfair Display', Georgia, serif;
+
+  /* Fluid layout rhythm — one source of truth for horizontal gutters
+     and vertical band spacing. Scales 22px → 80px across viewports so
+     no breakpoint is ever left with desktop padding on a phone. */
+  --gutter:      clamp(22px, 6vw, 80px);
+  --band-y:      clamp(64px, 10vw, 120px);
+  --band-y-lg:   clamp(80px, 12vw, 180px);
+  --band-y-hero: clamp(116px, 22vw, 180px);
+  --stack-gap:   clamp(36px, 8vw, 100px);
 }
 
-html { scroll-behavior: smooth; }
-body { font-family: var(--sans); background: var(--bg); color: var(--ink); overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: var(--sans); background: var(--bg); color: var(--ink);
+  overflow-x: hidden;
+  overscroll-behavior-x: none;   /* no horizontal rubber-banding */
+  width: 100%;
+}
 
 /* ══════════════════════════════════════════════
    CUSTOM CURSOR
@@ -134,6 +148,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); overf
   transition: transform 1.5s cubic-bezier(0.77,0,0.18,1);
 }
 .seam.seam-visible { transform: scaleX(1); }
+.seam-full { max-width: none; width: 100%; padding: 0 var(--gutter); box-sizing: border-box; }
 
 /* ══════════════════════════════════════════════
    NAV
@@ -198,10 +213,27 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); overf
 .nav-mobile-panel {
   position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 380px;
   background: var(--ink); z-index: 105;
-  transform: translateX(100%); transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  transform: translateX(100%);
+  /* Closed, the drawer is taken OUT of the render tree — not merely shoved
+     off-canvas. Parking it at translateX(100%) and trusting
+     body{overflow-x:hidden} to swallow it is a mask, not containment:
+     Chromium honours it, but iOS Safari still lets you pan to the parked
+     panel, which reads as dead space on the right of every page.
+     visibility:hidden removes it from paint, hit-testing and the a11y tree,
+     so there is nothing left out there to reach or tab into. */
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+              visibility 0s linear 0.45s;
   display: flex; flex-direction: column; padding: 100px 44px 44px;
 }
-.nav-mobile-panel.open { transform: translateX(0); }
+@supports (height: 100dvh) { .nav-mobile-panel { height: 100dvh; } }
+.nav-mobile-panel.open {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), visibility 0s;
+}
 .nav-mobile-close {
   position: absolute; top: 28px; right: 28px;
   width: 40px; height: 40px;
@@ -244,7 +276,48 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); overf
 /* ══════════════════════════════════════════════
    SECTION COMMONS
    ══════════════════════════════════════════════ */
-section { padding: 120px 80px; }
+section { padding: var(--band-y) var(--gutter); }
+
+/* ── BAND UTILITIES ──────────────────────────────
+   Replaces the per-page inline `padding:180px 80px` styles.
+   Inline styles outrank media queries, so any section that
+   carried them kept 80px side padding on a 375px phone and
+   crushed its text into a ~215px column. These classes keep
+   the same desktop look but breathe on small screens. */
+.band        { padding: var(--band-y) var(--gutter); }
+.band-lg     { padding: var(--band-y-lg) var(--gutter); }
+.band-hero   { padding: var(--band-y-hero) var(--gutter) var(--band-y); }
+.band-dark   { background: var(--ink); }
+.band-light  { background: var(--bg); }
+.band-white  { background: var(--white); }
+.band-inner  { max-width: 1280px; margin: 0 auto; }
+.band-center { text-align: center; }
+.band-center .section-eyebrow,
+.band-center .section-h2,
+.band-center .band-lede { text-align: center; }
+.band-center .section-h2 { max-width: 580px; margin-left: auto; margin-right: auto; }
+.band-lede {
+  font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.38);
+  max-width: 400px; margin: 0 auto 44px;
+}
+
+/* Two-column editorial split that collapses to a single stack */
+.split-2 {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--stack-gap); align-items: center;
+  max-width: 1280px; margin: 0 auto;
+}
+
+/* Forced line breaks that only make sense on wide screens */
+@media (max-width: 700px) { .br-lg { display: none; } }
+
+/* Dark page-header title (brands / contact / categories heroes) */
+.page-title {
+  color: #fff;
+  font-size: clamp(32px, 8vw, 68px);
+  max-width: 640px;
+}
+
 .section-eyebrow {
   font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--blue); margin-bottom: 16px; display: block;
@@ -290,9 +363,10 @@ section { padding: 120px 80px; }
    HERO
    ══════════════════════════════════════════════ */
 .hero {
-  position: relative; width: 100vw; height: 100vh; min-height: 700px;
+  position: relative; width: 100%; height: 100vh; min-height: 700px;
   overflow: hidden; display: flex; align-items: center;
 }
+@supports (height: 100dvh) { .hero { height: 100dvh; } }
 .hero-bg {
   position: absolute; inset: 0;
   background-image: url('../images/hero.jpg');
@@ -365,7 +439,7 @@ section { padding: 120px 80px; }
 /* ══════════════════════════════════════════════
    INTRO
    ══════════════════════════════════════════════ */
-.intro { background: var(--white); padding: 130px 80px; }
+.intro { background: var(--white); padding: var(--band-y) var(--gutter); }
 .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; max-width: 1280px; margin: 0 auto; }
 .intro-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 64px; background: var(--border); }
 .stat-cell {
@@ -394,7 +468,7 @@ section { padding: 120px 80px; }
    CATEGORIES — Fixed-height mosaic
    No dead space, all cards flush, different sizes
    ══════════════════════════════════════════════ */
-.cats-strip { background: var(--bg); padding: 120px 80px; }
+.cats-strip { background: var(--bg); padding: var(--band-y) var(--gutter); }
 .cats-header {
   display: flex; justify-content: space-between; align-items: flex-end;
   margin-bottom: 64px; max-width: 1280px; margin-left: auto; margin-right: auto;
@@ -489,7 +563,7 @@ section { padding: 120px 80px; }
 /* ══════════════════════════════════════════════
    BRANDS MINI
    ══════════════════════════════════════════════ */
-.brands-mini { background: var(--ink); padding: 80px; }
+.brands-mini { background: var(--ink); padding: clamp(56px, 8vw, 80px) var(--gutter); }
 .brands-mini-inner { max-width: 1280px; margin: 0 auto; }
 .brands-mini .section-eyebrow { color: rgba(var(--blue-light-rgb),0.75); }
 .brands-mini .section-h2 { color: #fff; }
@@ -511,7 +585,7 @@ section { padding: 120px 80px; }
    ══════════════════════════════════════════════ */
 .about-hero { position: relative; width: 100%; height: 75vh; overflow: hidden; }
 .about-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5) saturate(0.8); }
-.about-hero-content { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 80px; }
+.about-hero-content { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(40px, 7vw, 80px) var(--gutter); }
 .about-hero-content .section-h2 { color: #fff; font-size: clamp(40px, 6vw, 76px); max-width: 700px; }
 .about-body { background: var(--white); }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; max-width: 1280px; margin: 0 auto; align-items: start; }
@@ -528,7 +602,7 @@ section { padding: 120px 80px; }
 /* ══════════════════════════════════════════════
    CATEGORIES PAGE
    ══════════════════════════════════════════════ */
-.cats-page-hero { background: var(--ink); padding: 180px 80px 80px; }
+.cats-page-hero { background: var(--ink); padding: var(--band-y-hero) var(--gutter) clamp(56px, 8vw, 80px); }
 .cats-page-hero .section-h2 { color: #fff; font-size: clamp(40px, 5vw, 68px); max-width: 680px; }
 .cats-full { background: var(--bg); }
 .cat-full-item { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
@@ -537,7 +611,7 @@ section { padding: 120px 80px; }
 .cat-full-img { aspect-ratio: 4/3; overflow: hidden; }
 .cat-full-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.95s cubic-bezier(0.16,1,0.3,1); filter: saturate(0.9); }
 .cat-full-item:hover .cat-full-img img { transform: scale(1.045); }
-.cat-full-text { padding: 80px; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
+.cat-full-text { padding: clamp(44px, 7vw, 80px) var(--gutter); display: flex; flex-direction: column; justify-content: center; background: var(--white); }
 .cat-full-item:nth-child(even) .cat-full-text { background: var(--bg); }
 .cat-tag {
   display: inline-block; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
@@ -553,7 +627,7 @@ section { padding: 120px 80px; }
 .services-list { background: var(--white); }
 .service-row {
   display: grid; grid-template-columns: 72px 1fr 1fr; gap: 0;
-  padding: 64px 80px; border-bottom: 1px solid var(--border);
+  padding: clamp(36px, 5vw, 64px) var(--gutter); border-bottom: 1px solid var(--border);
   align-items: start; max-width: 1440px; margin: 0 auto;
   transition: background 0.35s, padding-left 0.35s;
   cursor: none;
@@ -568,14 +642,27 @@ section { padding: 120px 80px; }
    ══════════════════════════════════════════════ */
 .brands-featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); }
 .brand-cell {
-  background: var(--white); padding: 56px 40px;
+  background: var(--white); padding: clamp(24px, 4vw, 56px) clamp(18px, 3vw, 40px);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 12px; cursor: none; transition: background 0.3s; height: 240px; overflow: hidden;
+  gap: 12px; cursor: none; transition: background 0.3s;
+  aspect-ratio: 16 / 11; min-height: 150px; overflow: hidden; text-align: center;
 }
 .brand-cell:hover { background: var(--bg); }
-.brand-cell-name { font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--ink); }
-.brand-cell-tag { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-.brand-cell-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+.brand-cell-name { font-family: var(--serif); font-size: clamp(20px, 4.4vw, 28px); font-weight: 400; color: var(--ink); line-height: 1.15; }
+.brand-cell-tag { font-size: clamp(9.5px, 2.4vw, 11px); color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.5; }
+.brand-cell-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+/* Logo tiles — contain, never crop. `cover` was slicing the ends off
+   wordmarks like Makita; one tile also used contain, so the wall read
+   as four different treatments. One rule now covers all of them. */
+.brand-cell.is-logo { padding: clamp(18px, 4vw, 34px); }
+.brand-logo-img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.brand-cell.is-logo:hover .brand-logo-img { transform: scale(1.04); }
+
 .brands-all { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 2px; }
 .brand-all-cell {
   background: var(--white); padding: 36px 28px;
@@ -589,8 +676,8 @@ section { padding: 120px 80px; }
    ══════════════════════════════════════════════ */
 .contact-body { background: var(--white); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.contact-form-side { padding: 88px 80px; }
-.contact-info-side { padding: 88px 80px; background: var(--ink); }
+.contact-form-side { padding: clamp(44px, 7vw, 88px) var(--gutter); }
+.contact-info-side { padding: clamp(44px, 7vw, 88px) var(--gutter); background: var(--ink); }
 .form-group { margin-bottom: 32px; }
 .form-label { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
 .form-input, .form-textarea {
@@ -622,7 +709,7 @@ section { padding: 120px 80px; }
 /* ══════════════════════════════════════════════
    FOOTER
    ══════════════════════════════════════════════ */
-footer { background: var(--ink); padding: 88px 80px 64px; }
+footer { background: var(--ink); padding: clamp(56px, 8vw, 88px) var(--gutter) clamp(40px, 6vw, 64px); }
 .footer-inner { max-width: 1280px; margin: 0 auto; }
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .footer-brand { font-family: var(--serif); font-size: 22px; color: rgba(255,255,255,0.8); font-weight: 400; margin-bottom: 16px; letter-spacing: 0.02em; }
@@ -676,13 +763,20 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
   .nav-menu-btn { display: flex; }
 }
 @media (max-width: 900px) {
-  section { padding: 80px 32px; }
   #nav { padding: 0 24px; }
   #nav.scrolled { padding: 12px 24px; }
-  .hero-content { padding: 0 32px; }
-  .hero-scroll { left: 32px; }
-  .hero-line { left: 32px; }
-  .intro-grid, .about-grid, .contact-grid, .feature-split-inner { grid-template-columns: 1fr; }
+  .hero-content { padding: 0 var(--gutter); }
+  .hero-scroll { left: var(--gutter); }
+  .hero-line { left: var(--gutter); }
+  .intro-grid, .about-grid, .contact-grid, .feature-split-inner, .split-2 { grid-template-columns: 1fr; }
+
+  /* Horizontal entrance reveals park their element 48px outside the viewport
+     until the observer fires — the same "parked off-canvas, masked by
+     overflow-x:hidden" trap as the nav drawer. Columns are stacked at this
+     width anyway, so a sideways slide carries no meaning: slide up instead
+     and nothing ever sits outside the viewport horizontally. */
+  .reveal-left, .reveal-right { transform: translateY(34px); }
+  .reveal-left.visible, .reveal-right.visible { transform: translateY(0); }
   .intro-stat-grid { grid-template-columns: 1fr 1fr; }
   .cats-magazine { grid-template-columns: 1fr 1fr; height: auto; }
   .cats-col-stacked { grid-template-rows: 1fr 1fr; height: auto; }
@@ -690,51 +784,124 @@ footer { background: var(--ink); padding: 88px 80px 64px; }
   .cat-full-item { grid-template-columns: 1fr; }
   .cat-full-item:nth-child(even) .cat-full-img { order: 0; }
   .cat-full-item:nth-child(even) .cat-full-text { order: 1; }
-  .service-row { grid-template-columns: 48px 1fr; row-gap: 16px; padding: 44px 32px; }
-  .service-row:hover { padding-left: 32px; }
+  .service-row { grid-template-columns: 48px 1fr; row-gap: 16px; padding: 44px var(--gutter); }
+  .service-row:hover { padding-left: var(--gutter); }
   .svc-desc { grid-column: 2; }
   .brands-featured { grid-template-columns: 1fr 1fr; }
   .brands-all { grid-template-columns: repeat(3, 1fr); }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
-  .contact-form-side, .contact-info-side { padding: 56px 32px; }
-  .cat-full-text { padding: 56px 32px; }
-  footer { padding: 64px 32px 48px; }
-  .brands-mini { padding: 64px 32px; }
-  .cats-strip { padding: 80px 32px; }
+  .contact-form-side, .contact-info-side { padding: 56px var(--gutter); }
+  .cat-full-text { padding: 56px var(--gutter); }
+  footer { padding: 64px var(--gutter) 48px; }
+  .brands-mini { padding: 64px var(--gutter); }
+  .cats-strip { padding: 80px var(--gutter); }
 }
 @media (max-width: 600px) {
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .nav-menu-btn { display: flex; }
-  .hero-h1 { font-size: clamp(38px, 9vw, 56px); }
-  .hero-sub { font-size: 15px; }
-  .hero-btns { flex-direction: column; align-items: stretch; }
-  .hero-btns button { width: 100%; text-align: center; justify-content: center; }
-  section { padding: 64px 24px; }
+
+  /* Keep the wordmark whole — at 375px the scrolled pill was clipping it */
+  .nav-logo { font-size: 18px; letter-spacing: 0.01em; white-space: nowrap; }
+  #nav.scrolled { padding: 10px 14px; }
+  #nav.scrolled .nav-inner { padding: 12px 18px; border-radius: 14px; }
+
+  /* The desktop overlay fades left→right because copy sits in the left
+     column. On a phone the copy is full-bleed, so the pale right end left
+     white text sitting on bright sky. Vertical scrim instead. */
+  .hero-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 42%, rgba(0,0,0,0.72) 100%);
+  }
+  .hero { min-height: 560px; }
+  .hero-h1 { font-size: clamp(38px, 9vw, 56px); margin-bottom: 24px; }
+  .hero-eyebrow { margin-bottom: 20px; font-size: 9.5px; letter-spacing: 0.18em; }
+  .hero-sub { font-size: 15px; max-width: none; margin-bottom: 32px; }
+  .hero-btns { flex-direction: column; align-items: stretch; gap: 10px; }
+  .hero-btns button { width: 100%; text-align: center; justify-content: center; padding: 17px 28px; }
+  .hero-scroll { bottom: 28px; }
+  .hero-word { display: none; }
+
+  /* TEXT MEASURE — headings and body were inheriting desktop max-widths
+     and centring margins inside a narrow column, which read as broken
+     alignment. On phones text runs the full gutter-to-gutter measure. */
+  .section-h2 { font-size: clamp(30px, 8.2vw, 42px); letter-spacing: -0.02em; }
+  .section-body, .band-lede, .cat-full-p, .svc-desc, .feature-text {
+    max-width: none; font-size: 15px; line-height: 1.75;
+  }
+  .band-center .section-h2,
+  .band-center .band-lede { max-width: 100%; margin-left: 0; margin-right: 0; }
+  .band-center .band-lede { margin-bottom: 36px; }
+  .divider { margin-bottom: 28px; }
+
   .cats-magazine { grid-template-columns: 1fr; gap: 2px; height: auto; }
   .cats-col-stacked { grid-template-rows: auto auto; gap: 2px; }
   .cat-card { min-height: 240px; }
   .cats-header { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
-  .brands-featured { grid-template-columns: 1fr; }
-  .brands-all { grid-template-columns: 1fr 1fr; }
+  .cats-header .btn-dark { width: 100%; justify-content: center; }
+  /* Card copy sits closer to the edge when the card is full-width */
+  .cat-info { padding: 26px 22px; }
+  .cat-name { font-size: 22px; }
+
+  /* ── BRANDS PAGE, PHONE ──────────────────────
+     Was 1 column: every logo became a 240px-tall band and the
+     list ran ~1400px of scroll. Two even columns keeps the wall
+     legible, halves the scroll, and gives logos a sane tile. */
+  .brands-featured { grid-template-columns: 1fr 1fr; }
+  .brand-cell { aspect-ratio: 1 / 1; min-height: 0; padding: 20px 14px; gap: 8px; }
+  .brand-cell.is-logo { padding: 16px; }
+  .brand-cell-name { font-size: 19px; }
+  .brand-cell-tag { font-size: 9.5px; letter-spacing: 0.08em; }
+  .brands-all { grid-template-columns: repeat(3, 1fr); }
+  .brand-all-cell {
+    padding: 20px 8px; font-size: 16px; text-align: center;
+    display: flex; align-items: center; justify-content: center; min-height: 64px;
+  }
   .brands-row { gap: 24px 32px; justify-content: flex-start; }
-  .intro-stat-grid { grid-template-columns: 1fr; }
+
+  .intro-stat-grid { grid-template-columns: 1fr 1fr; }
   .values-grid { grid-template-columns: 1fr; }
-  .cat-full-text { padding: 44px 24px; }
+  .cat-full-text { padding: 44px var(--gutter); }
   .cat-full-h3 { font-size: 28px; }
-  .service-row { grid-template-columns: 1fr; padding: 36px 24px; }
+  .service-row { grid-template-columns: 1fr; padding: 36px var(--gutter); }
   .svc-desc { grid-column: 1; }
   .svc-num { padding-top: 0; }
-  .contact-form-side, .contact-info-side { padding: 44px 24px; }
+  .contact-form-side, .contact-info-side { padding: 44px var(--gutter); }
+  /* 16px keeps iOS from auto-zooming the whole page on focus, and the
+     taller padding gets each field over the 44px touch-target floor. */
+  .form-input, .form-textarea { font-size: 16px; padding: 15px 0; }
+  .form-submit { width: 100%; justify-content: center; padding: 18px 32px; }
+  .hours-row { font-size: 13.5px; gap: 12px; }
+
   .footer-top { grid-template-columns: 1fr; gap: 36px; }
-  footer { padding: 56px 24px 40px; }
+  footer { padding: 56px var(--gutter) 40px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
   .nav-mobile-panel { max-width: 100%; padding: 96px 28px 32px; }
   .nav-mobile-links a { font-size: 26px; }
   .hero-line { display: none; }
-  .about-hero-content { padding: 48px 24px; }
-  .cats-page-hero { padding: 140px 24px 60px; }
-  .brands-mini { padding: 64px 24px; }
+  .about-hero-content { padding: 48px var(--gutter); }
+  .cats-page-hero { padding: 140px var(--gutter) 60px; }
+  .brands-mini { padding: 64px var(--gutter); }
+}
+
+/* The magazine cards tilt in 3D on pointer move. Touch devices never
+   fire that, and preserve-3d + translateZ layers are a known source of
+   paint glitches on mobile GPUs — so flatten them where hover is absent. */
+@media (hover: none), (max-width: 900px) {
+  .cats-magazine { perspective: none; }
+  .cat-card { transform-style: flat; transform: none !important; }
+  .cat-info, .cat-label { transform: none; }
+  .cat-card:hover .cat-info { transform: none; }
+  .cat-arrow { transform: scale(0.8); }
+  .cat-card:hover .cat-arrow { transform: scale(1); }
+}
+
+/* ── SMALL PHONES (≤400px) ── */
+@media (max-width: 400px) {
+  .brands-all { grid-template-columns: 1fr 1fr; }
+  .brand-all-cell { font-size: 17px; }
+  .intro-stat-grid { grid-template-columns: 1fr 1fr; }
+  .stat-cell { padding: 24px 18px; }
+  .stat-num { font-size: 38px; }
 }
 
 /* ══════════════════════════════════════════════
