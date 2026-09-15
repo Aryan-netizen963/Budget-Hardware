@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/budgethardwareco/public_html/
+    - /bin/cp -R Budget-Hardware-Website/. $DEPLOYPATH
