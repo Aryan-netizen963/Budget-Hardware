@@ -1,0 +1,108 @@
+name: Deploy to cPanel Web Disk
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Budget-Hardware-Website/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+    inputs:
+      full_sync:
+        description: 'Upload every file, not just the ones that changed'
+        type: boolean
+        default: false
+
+# Never let two deploys write to the server at the same time.
+concurrency:
+  group: deploy-webdisk
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # need the previous commit to diff against
+
+      - name: Publish over WebDAV
+        env:
+          WEBDAV_HOST: ${{ secrets.WEBDAV_HOST }}
+          WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
+          WEBDAV_PASS: ${{ secrets.WEBDAV_PASS }}
+          FULL_SYNC: ${{ github.event.inputs.full_sync || 'false' }}
+        run: |
+          set -euo pipefail
+
+          SRC="Budget-Hardware-Website"
+          BASE="https://${WEBDAV_HOST}:2078"
+
+          # Keep credentials out of the process list and out of logs.
+          NETRC="$(mktemp)"
+          trap 'rm -f "$NETRC"' EXIT
+          printf 'machine %s\nlogin %s\npassword %s\n' \
+            "$WEBDAV_HOST" "$WEBDAV_USER" "$WEBDAV_PASS" > "$NETRC"
+          chmod 600 "$NETRC"
+
+          CURL=(curl --netrc-file "$NETRC" --silent --show-error --location)
+
+          # Make sure the subdirectories exist. MKCOL returns 405 when the
+          # collection is already there, which is fine.
+          for dir in css js images; do
+            "${CURL[@]}" -o /dev/null -w '' -X MKCOL "$BASE/$dir/" || true
+          done
+
+          upload() {
+            local rel="$1"
+            if "${CURL[@]}" --fail -T "$SRC/$rel" "$BASE/$rel" -o /dev/null; then
+              echo "  uploaded  $rel"
+            else
+              echo "  FAILED    $rel" >&2
+              return 1
+            fi
+          }
+
+          remove() {
+            local rel="$1"
+            "${CURL[@]}" -o /dev/null -X DELETE "$BASE/$rel" || true
+            echo "  deleted   $rel"
+          }
+
+          # Decide what to send.
+          if [ "$FULL_SYNC" = "true" ] || ! git rev-parse HEAD~1 >/dev/null 2>&1; then
+            echo "Full sync."
+            mapfile -t CHANGED < <(cd "$SRC" && find . -type f ! -name '.DS_Store' | sed 's|^\./||')
+            REMOVED=()
+          else
+            echo "Syncing files changed in ${GITHUB_SHA:0:7}."
+            mapfile -t CHANGED < <(git diff --name-only --diff-filter=ACMRT HEAD~1 HEAD -- "$SRC" | sed "s|^$SRC/||")
+            mapfile -t REMOVED < <(git diff --name-only --diff-filter=D    HEAD~1 HEAD -- "$SRC" | sed "s|^$SRC/||")
+          fi
+
+          if [ "${#CHANGED[@]}" -eq 0 ] && [ "${#REMOVED[@]}" -eq 0 ]; then
+            echo "Nothing to publish."
+            exit 0
+          fi
+
+          FAILED=0
+          for f in "${CHANGED[@]:-}"; do
+            [ -n "$f" ] || continue
+            upload "$f" || FAILED=1
+          done
+          for f in "${REMOVED[@]:-}"; do
+            [ -n "$f" ] || continue
+            remove "$f"
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo "One or more uploads failed." >&2
+            exit 1
+          fi
+          echo "Done."
+
+      - name: Verify the site is serving
+        run: |
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -m 30 "https://${{ secrets.SITE_URL }}/" || echo 000)
+          echo "Homepage returned HTTP $code"
+          [ "$code" = "200" ] || { echo "Site is not returning 200." >&2; exit 1; }
