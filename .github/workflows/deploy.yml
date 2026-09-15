@@ -28,7 +28,9 @@ jobs:
 
       - name: Publish over WebDAV
         env:
-          WEBDAV_HOST: ${{ secrets.WEBDAV_HOST }}
+          # Not a secret: this is a public domain name. Keeping it as a secret
+          # only created a silent failure when it wasn't set.
+          WEBDAV_HOST: budgethardware.co.ls
           WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
           WEBDAV_PASS: ${{ secrets.WEBDAV_PASS }}
           FULL_SYNC: ${{ github.event.inputs.full_sync || 'false' }}
@@ -50,16 +52,29 @@ jobs:
           SRC="Budget-Hardware-Website"
           BASE="https://${WEBDAV_HOST}:2078"
 
-          # Credentials go in a curl config file rather than .netrc: netrc is
-          # whitespace-delimited, so a password containing a space or '#'
-          # silently parses wrong. A config file quotes the value properly and
-          # still keeps it out of the process list.
-          CFG="$(mktemp)"
-          trap 'rm -f "$CFG"' EXIT
-          printf 'user = "%s:%s"\n' "$WEBDAV_USER" "$WEBDAV_PASS" > "$CFG"
-          chmod 600 "$CFG"
+          # Strip CR/LF only. Pasting into GitHub's secret box very easily
+          # captures a trailing newline, which is then sent as part of the
+          # password and rejected as 401. A newline can never be part of a
+          # valid credential, so removing it is always safe.
+          WEBDAV_USER="${WEBDAV_USER//[$'\r\n']/}"
+          WEBDAV_PASS="${WEBDAV_PASS//[$'\r\n']/}"
 
-          CURL=(curl --config "$CFG" --silent --show-error --location)
+          # Build the Basic header directly rather than going through .netrc or
+          # a curl config file: both have quoting rules that a password
+          # containing " or # or a space can break. base64 has none.
+          AUTH="Basic $(printf '%s:%s' "$WEBDAV_USER" "$WEBDAV_PASS" | base64 | tr -d '\n')"
+
+          CURL=(curl -H "Authorization: $AUTH" --silent --show-error --location)
+
+          # Fail immediately with a clear message if auth is wrong, rather than
+          # emitting one 401 per file.
+          root_code=$("${CURL[@]}" -o /dev/null -w '%{http_code}' -X PROPFIND -H 'Depth: 0' "$BASE/" || echo 000)
+          case "$root_code" in
+            2*) echo "Authenticated to $WEBDAV_HOST:2078 as ${WEBDAV_USER%%@*}@... ($root_code)" ;;
+            401) echo "::error::401 from the Web Disk root. WEBDAV_USER or WEBDAV_PASS is wrong. Re-enter both secrets, taking care not to include a trailing newline."; exit 1 ;;
+            000) echo "::error::Could not reach $WEBDAV_HOST:2078."; exit 1 ;;
+            *)   echo "::error::Unexpected HTTP $root_code from the Web Disk root."; exit 1 ;;
+          esac
 
           # Make sure the subdirectories exist. MKCOL returns 405 when the
           # collection is already there, which is fine.
@@ -131,6 +146,6 @@ jobs:
 
       - name: Verify the site is serving
         run: |
-          code=$(curl -sS -o /dev/null -w '%{http_code}' -m 30 "https://${{ secrets.SITE_URL }}/" || echo 000)
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -m 30 "https://budgethardware.co.ls/" || echo 000)
           echo "Homepage returned HTTP $code"
           [ "$code" = "200" ] || { echo "Site is not returning 200." >&2; exit 1; }
