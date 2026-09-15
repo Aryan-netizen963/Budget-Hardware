@@ -1,11 +1,11 @@
 name: Deploy to cPanel Web Disk
 
 on:
+  # No paths filter: GitHub's glob matching treats dotfiles inconsistently,
+  # and .htaccess is a dotfile. The job itself exits cleanly when there is
+  # nothing to publish, so filtering here buys nothing and can silently skip.
   push:
     branches: [main]
-    paths:
-      - 'Budget-Hardware-Website/**'
-      - '.github/workflows/deploy.yml'
   workflow_dispatch:
     inputs:
       full_sync:
@@ -35,17 +35,31 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Fail loudly on a missing secret. Without this, an unset value just
+          # produces "curl: (3) No host part in the URL", which says nothing
+          # about the actual cause.
+          missing=0
+          for v in WEBDAV_HOST WEBDAV_USER WEBDAV_PASS; do
+            if [ -z "${!v:-}" ]; then
+              echo "::error::Repository secret $v is not set (Settings > Secrets and variables > Actions)."
+              missing=1
+            fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
+
           SRC="Budget-Hardware-Website"
           BASE="https://${WEBDAV_HOST}:2078"
 
-          # Keep credentials out of the process list and out of logs.
-          NETRC="$(mktemp)"
-          trap 'rm -f "$NETRC"' EXIT
-          printf 'machine %s\nlogin %s\npassword %s\n' \
-            "$WEBDAV_HOST" "$WEBDAV_USER" "$WEBDAV_PASS" > "$NETRC"
-          chmod 600 "$NETRC"
+          # Credentials go in a curl config file rather than .netrc: netrc is
+          # whitespace-delimited, so a password containing a space or '#'
+          # silently parses wrong. A config file quotes the value properly and
+          # still keeps it out of the process list.
+          CFG="$(mktemp)"
+          trap 'rm -f "$CFG"' EXIT
+          printf 'user = "%s:%s"\n' "$WEBDAV_USER" "$WEBDAV_PASS" > "$CFG"
+          chmod 600 "$CFG"
 
-          CURL=(curl --netrc-file "$NETRC" --silent --show-error --location)
+          CURL=(curl --config "$CFG" --silent --show-error --location)
 
           # Make sure the subdirectories exist. MKCOL returns 405 when the
           # collection is already there, which is fine.
@@ -54,14 +68,28 @@ jobs:
           done
 
           upload() {
-            local rel="$1"
-            if "${CURL[@]}" --fail -T "$SRC/$rel" "$BASE/$rel" -o /dev/null; then
-              echo "  uploaded  $rel"
-            else
-              echo "  FAILED    $rel" >&2
-              return 1
-            fi
+            local rel="$1" code
+            # Capture the HTTP status so a failure says *why* (401 wrong
+            # credentials, 403 permissions, 404 wrong path) instead of just
+            # "failed".
+            code=$("${CURL[@]}" -o /dev/null -w '%{http_code}' -T "$SRC/$rel" "$BASE/$rel" || echo 000)
+            case "$code" in
+              2*) echo "  uploaded  $rel  ($code)" ;;
+              401) echo "  FAILED    $rel  (401 Unauthorized - check WEBDAV_USER / WEBDAV_PASS)" >&2; return 1 ;;
+              403) echo "  FAILED    $rel  (403 Forbidden - Web Disk user lacks write permission)" >&2; return 1 ;;
+              404) echo "  FAILED    $rel  (404 - path does not exist under the Web Disk home directory)" >&2; return 1 ;;
+              000) echo "  FAILED    $rel  (could not connect to $WEBDAV_HOST:2078)" >&2; return 1 ;;
+              *)   echo "  FAILED    $rel  (HTTP $code)" >&2; return 1 ;;
+            esac
           }
+
+          # Show where the Web Disk account actually rooted us. If this lists
+          # 'public_html', the home directory is the account home, not
+          # public_html, and every upload is landing one level too high.
+          echo "Web Disk root contains:"
+          "${CURL[@]}" -X PROPFIND -H 'Depth: 1' "$BASE/" 2>/dev/null \
+            | grep -oE '<D:href>[^<]*</D:href>' | sed 's|</\?D:href>||g' | head -20 \
+            || echo "  (could not list root)"
 
           remove() {
             local rel="$1"
