@@ -7,50 +7,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/style.css?v=6"/>
+<link rel="stylesheet" href="css/style.css?v=20"/>
 </head>
 <body data-page="about">
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav id="nav" class="transparent">
   <div class="nav-inner">
-    <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
+    <a class="nav-logo" href="index.html">Budget <em>Hardware</em></a>
     <ul class="nav-links">
-      <li><a onclick="goPage('home')" data-page="home">Home</a></li>
-      <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
-      <li><a onclick="goPage('categories')" data-page="categories">Categories</a></li>
-      <li><a onclick="goPage('services')" data-page="services">Services</a></li>
-      <li><a onclick="goPage('brands')" data-page="brands">Brands</a></li>
-      <li><a onclick="goPage('contact')" data-page="contact">Contact</a></li>
+      <li><a href="index.html" data-page="home">Home</a></li>
+      <li><a href="about.html" data-page="about">About Us</a></li>
+      <li><a href="categories.html" data-page="categories">Categories</a></li>
+      <li><a href="services.html" data-page="services">Services</a></li>
+      <li><a href="brands.html" data-page="brands">Brands</a></li>
+      <li><a href="contact.html" data-page="contact">Contact</a></li>
     </ul>
     <button class="nav-cta" onclick="goPage('contact')">Visit Store</button>
-    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navMobilePanel"><span></span><span></span></button>
   </div>
 </nav>
 
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
-<div class="nav-mobile-panel" id="navMobilePanel">
-  <button class="nav-mobile-close" aria-label="Close menu">
-    <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </button>
+<div class="nav-mobile-panel" id="navMobilePanel" aria-label="Site menu">
+  <p class="nav-mobile-eyebrow">Menu</p>
   <ul class="nav-mobile-links">
-    <li><a onclick="goPage('home')" data-page="home">Home</a></li>
-    <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
-    <li><a onclick="goPage('categories')" data-page="categories">Categories</a></li>
-    <li><a onclick="goPage('services')" data-page="services">Services</a></li>
-    <li><a onclick="goPage('brands')" data-page="brands">Brands</a></li>
-    <li><a onclick="goPage('contact')" data-page="contact">Contact</a></li>
+    <li><a href="index.html" data-page="home">Home</a></li>
+    <li><a href="about.html" data-page="about" class="active">About Us</a></li>
+    <li><a href="categories.html" data-page="categories">Categories</a></li>
+    <li><a href="services.html" data-page="services">Services</a></li>
+    <li><a href="brands.html" data-page="brands">Brands</a></li>
+    <li><a href="contact.html" data-page="contact">Contact</a></li>
   </ul>
-  <button class="nav-mobile-cta" onclick="goPage('contact')">Visit Store</button>
+  <div class="nav-mobile-foot">
+    <div class="nav-mobile-foot-rule"></div>
+    <p class="nav-mobile-foot-label">Maseru Store</p>
+    <p class="nav-mobile-foot-addr">23 Motsoene Road,<br>Behind Industrial Area Post Office</p>
+    <a href="tel:+26622320101">+266 22320101</a>
+    <a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a>
+    <button class="nav-mobile-cta" onclick="goPage('contact')">
+      Get directions
+      <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
 </div>
 
-<div class="page active" id="page-about">
+<main class="page active" id="main" data-page-id="about">
   <!-- Hero with curtain image -->
   <div class="about-hero img-curtain">
     <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80" alt="Modern warehouse" loading="lazy"/>
     <div class="about-hero-content">
       <div>
         <p class="section-eyebrow" style="color:rgba(var(--blue-light-rgb),0.8)">Our Story</p>
-        <h2 class="section-h2">Three decades of <br class="br-lg">building the builders.</h2>
+        <h1 class="section-h2">Fifteen years of <br class="br-lg">building the builders.</h1>
       </div>
     </div>
   </div>
@@ -61,13 +71,13 @@
         <p class="section-eyebrow reveal">Mission</p>
         <div class="divider reveal reveal-delay-1"></div>
         <h2 class="section-h2 reveal reveal-delay-1">We exist to empower <br class="br-lg">every builder.</h2>
-        <p class="section-body reveal reveal-delay-2" style="margin-bottom:20px">Budget Hardware was founded in 1992 with a single conviction: that professionals deserve access to the same quality materials that large construction firms take for granted.</p>
+        <p class="section-body reveal reveal-delay-2" style="margin-bottom:20px">Budget Hardware was founded in 2011 with a single conviction: that professionals deserve access to the same quality materials that large construction firms take for granted.</p>
         <p class="section-body reveal reveal-delay-2">Today, we supply over 8,000 contractors, architects, and builders across the region with hardware, materials, and expertise that elevate every project.</p>
-        <div class="values-grid reveal reveal-delay-3">
-          <div class="value-card"><div class="value-title">Quality First</div><div class="value-desc">Every product is vetted by our team. We only carry what we'd use ourselves.</div></div>
-          <div class="value-card" style="background:var(--bg)"><div class="value-title">Expert Guidance</div><div class="value-desc">Our staff are tradespeople, not just salespeople. Real knowledge, real advice.</div></div>
-          <div class="value-card" style="background:var(--bg)"><div class="value-title">Deep Inventory</div><div class="value-desc">12,000+ products in stock. If we don't have it, we'll source it within 48 hours.</div></div>
-          <div class="value-card"><div class="value-title">Local Roots</div><div class="value-desc">Community-first since day one. We grow when our builders grow.</div></div>
+        <div class="values-grid stagger">
+          <div class="value-card reveal"><div class="value-title">Quality First</div><div class="value-desc">Every product is vetted by our team. We only carry what we'd use ourselves.</div></div>
+          <div class="value-card reveal" style="background:var(--bg)"><div class="value-title">Expert Guidance</div><div class="value-desc">Our staff are tradespeople, not just salespeople. Real knowledge, real advice.</div></div>
+          <div class="value-card reveal" style="background:var(--bg)"><div class="value-title">Deep Inventory</div><div class="value-desc">12,000+ products in stock. If we don't have it, we'll source it within 48 hours.</div></div>
+          <div class="value-card reveal"><div class="value-title">Local Roots</div><div class="value-desc">Community-first since day one. We grow when our builders grow.</div></div>
         </div>
       </div>
       <div>
@@ -75,12 +85,12 @@
         <div class="img-curtain reveal-right" style="width:100%;aspect-ratio:3/4;margin-bottom:2px">
           <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Construction site" style="width:100%;height:100%;object-fit:cover" loading="lazy"/>
         </div>
-        <div class="timeline">
-          <div class="tl-item reveal"><span class="tl-year">1992</span><span class="tl-desc">Founded in Maseru with a 500m² warehouse and a team of four.</span></div>
-          <div class="tl-item reveal"><span class="tl-year">2001</span><span class="tl-desc">Expanded to three locations and launched our contractor account program.</span></div>
-          <div class="tl-item reveal"><span class="tl-year">2010</span><span class="tl-desc">Reached 5,000 active professional accounts. Launched fleet delivery service.</span></div>
-          <div class="tl-item reveal"><span class="tl-year">2018</span><span class="tl-desc">Opened flagship 4,000m² warehouse. Became authorized Bosch & Makita dealer.</span></div>
-          <div class="tl-item reveal"><span class="tl-year">2024</span><span class="tl-desc">12,000+ products across 6 locations. Still family-owned. Still quality-first.</span></div>
+        <div class="timeline stagger">
+          <div class="tl-item reveal"><span class="tl-year">2011</span><span class="tl-desc">Founded in Maseru with a 500m² warehouse and a team of four.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2015</span><span class="tl-desc">Expanded to three locations and launched our contractor account program.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2019</span><span class="tl-desc">Reached 5,000 active professional accounts. Launched fleet delivery service.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2022</span><span class="tl-desc">Opened flagship 4,000m² warehouse. Became authorized Bosch & Makita dealer.</span></div>
+          <div class="tl-item reveal"><span class="tl-year">2025</span><span class="tl-desc">12,000+ products across 6 locations. Still family-owned. Still quality-first.</span></div>
         </div>
       </div>
     </div>
@@ -91,15 +101,15 @@
       <div class="footer-accent-line"></div>
       <div class="footer-top">
         <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
-        <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
-        <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a href="tel:+26622320101">+266 22320101</a><a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="brands.html">Brands</a><a href="contact.html">Contact</a></div>
+        <div class="footer-col"><h4>Categories</h4><a href="categories.html">Power Tools</a><a href="categories.html">Building Materials</a><a href="categories.html">Electrical</a><a href="categories.html">Plumbing</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="tel:+26622320101">+266 22320101</a><a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a><a href="contact.html">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>
   </footer>
-</div>
+</main>
 
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=20"></script>
 </body>
 </html>

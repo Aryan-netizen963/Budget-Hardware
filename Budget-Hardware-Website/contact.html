@@ -7,50 +7,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/style.css?v=6"/>
+<link rel="stylesheet" href="css/style.css?v=20"/>
 </head>
 <body data-page="contact">
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav id="nav" class="transparent">
   <div class="nav-inner">
-    <a class="nav-logo" onclick="goPage('home')">Budget <em>Hardware</em></a>
+    <a class="nav-logo" href="index.html">Budget <em>Hardware</em></a>
     <ul class="nav-links">
-      <li><a onclick="goPage('home')" data-page="home">Home</a></li>
-      <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
-      <li><a onclick="goPage('categories')" data-page="categories">Categories</a></li>
-      <li><a onclick="goPage('services')" data-page="services">Services</a></li>
-      <li><a onclick="goPage('brands')" data-page="brands">Brands</a></li>
-      <li><a onclick="goPage('contact')" data-page="contact">Contact</a></li>
+      <li><a href="index.html" data-page="home">Home</a></li>
+      <li><a href="about.html" data-page="about">About Us</a></li>
+      <li><a href="categories.html" data-page="categories">Categories</a></li>
+      <li><a href="services.html" data-page="services">Services</a></li>
+      <li><a href="brands.html" data-page="brands">Brands</a></li>
+      <li><a href="contact.html" data-page="contact">Contact</a></li>
     </ul>
     <button class="nav-cta" onclick="goPage('contact')">Visit Store</button>
-    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navMobilePanel"><span></span><span></span></button>
   </div>
 </nav>
 
 <div class="nav-mobile-backdrop" id="navMobileBackdrop"></div>
-<div class="nav-mobile-panel" id="navMobilePanel">
-  <button class="nav-mobile-close" aria-label="Close menu">
-    <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </button>
+<div class="nav-mobile-panel" id="navMobilePanel" aria-label="Site menu">
+  <p class="nav-mobile-eyebrow">Menu</p>
   <ul class="nav-mobile-links">
-    <li><a onclick="goPage('home')" data-page="home">Home</a></li>
-    <li><a onclick="goPage('about')" data-page="about">About Us</a></li>
-    <li><a onclick="goPage('categories')" data-page="categories">Categories</a></li>
-    <li><a onclick="goPage('services')" data-page="services">Services</a></li>
-    <li><a onclick="goPage('brands')" data-page="brands">Brands</a></li>
-    <li><a onclick="goPage('contact')" data-page="contact">Contact</a></li>
+    <li><a href="index.html" data-page="home">Home</a></li>
+    <li><a href="about.html" data-page="about">About Us</a></li>
+    <li><a href="categories.html" data-page="categories">Categories</a></li>
+    <li><a href="services.html" data-page="services">Services</a></li>
+    <li><a href="brands.html" data-page="brands">Brands</a></li>
+    <li><a href="contact.html" data-page="contact" class="active">Contact</a></li>
   </ul>
-  <button class="nav-mobile-cta" onclick="goPage('contact')">Visit Store</button>
+  <div class="nav-mobile-foot">
+    <div class="nav-mobile-foot-rule"></div>
+    <p class="nav-mobile-foot-label">Maseru Store</p>
+    <p class="nav-mobile-foot-addr">23 Motsoene Road,<br>Behind Industrial Area Post Office</p>
+    <a href="tel:+26622320101">+266 22320101</a>
+    <a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a>
+    <button class="nav-mobile-cta" onclick="goPage('contact')">
+      Get directions
+      <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
 </div>
 
-<div class="page active" id="page-contact">
+<main class="page active" id="main" data-page-id="contact">
   <section class="band-hero" style="position:relative;overflow:hidden;">
     <div style="position:absolute;inset:0;z-index:0;">
       <img src="images/contacthero.jpg" alt="Contact" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4) saturate(0.7);"/>
     </div>
     <div style="position:relative;z-index:1;">
       <p class="section-eyebrow" style="color:rgba(var(--blue-light-rgb),0.8)">Get in Touch</p>
-      <h2 class="section-h2 page-title">Let's talk about <br class="br-lg">your next project.</h2>
+      <h1 class="section-h2 page-title">Let's talk about <br class="br-lg">your next project.</h1>
     </div>
   </section>
 
@@ -84,21 +94,21 @@
         </button>
       </div>
 
-      <div class="contact-info-side reveal-right">
+      <div class="contact-info-side reveal-right stagger">
         <p class="section-eyebrow" style="color:rgba(var(--blue-light-rgb),0.7);margin-bottom:44px">Store Information</p>
-        <div class="info-item">
+        <div class="info-item reveal">
           <div class="info-label">Main Location</div>
           <div class="info-val">23 Motsoene Road, Behind Industrial Area Post Office<br>Maseru 105, Lesotho</div>
         </div>
-        <div class="info-item">
+        <div class="info-item reveal">
           <div class="info-label">Phone</div>
           <div class="info-val"><a href="tel:+26622320101">+266 22320101</a></div>
         </div>
-        <div class="info-item">
+        <div class="info-item reveal">
           <div class="info-label">Email</div>
           <div class="info-val"><a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a></div>
         </div>
-        <div class="info-item">
+        <div class="info-item reveal">
           <div class="info-label">Business Hours</div>
           <div class="hours-grid">
             <div class="hours-row"><span>Monday – Saturday</span><span>8:00 AM – 5:00 PM</span></div>
@@ -130,15 +140,15 @@
       <div class="footer-accent-line"></div>
       <div class="footer-top">
         <div><div class="footer-brand">Budget <em>Hardware</em></div><p class="footer-tagline">Premium hardware and building materials for professionals who demand quality without compromise.</p></div>
-        <div class="footer-col"><h4>Company</h4><a onclick="goPage('about')">About Us</a><a onclick="goPage('services')">Services</a><a onclick="goPage('brands')">Brands</a><a onclick="goPage('contact')">Contact</a></div>
-        <div class="footer-col"><h4>Categories</h4><a onclick="goPage('categories')">Power Tools</a><a onclick="goPage('categories')">Building Materials</a><a onclick="goPage('categories')">Electrical</a><a onclick="goPage('categories')">Plumbing</a></div>
-        <div class="footer-col"><h4>Contact</h4><a href="tel:+26622320101">+266 22320101</a><a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a><a onclick="goPage('contact')">Find a Store</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="brands.html">Brands</a><a href="contact.html">Contact</a></div>
+        <div class="footer-col"><h4>Categories</h4><a href="categories.html">Power Tools</a><a href="categories.html">Building Materials</a><a href="categories.html">Electrical</a><a href="categories.html">Plumbing</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="tel:+26622320101">+266 22320101</a><a href="mailto:budgethardware@yahoo.com">budgethardware@yahoo.com</a><a href="contact.html">Find a Store</a></div>
       </div>
       <div class="footer-bottom"><span class="footer-copy">© 2026 Budget <em>Hardware</em>. All rights reserved.</span><span class="footer-copy">Premium Building Solutions</span></div>
     </div>
   </footer>
-</div>
+</main>
 
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=20"></script>
 </body>
 </html>

@@ -11,28 +11,12 @@ let currentPage = document.body.getAttribute('data-page') || 'home';
 /* ══════════════════════════════════════════════
    PAGE NAVIGATION
    ══════════════════════════════════════════════ */
+/* Kept for the remaining onclick buttons (Visit Store / CTAs). The in-page
+   branch this used to carry was dead: it required more than one .page in the
+   document, and every file ships exactly one, so it always fell through to a
+   redirect. Navigation links are now real <a href> elements and don't come
+   through here at all. */
 function goPage(name) {
-  const pages = document.querySelectorAll('.page');
-  if (pages.length > 1) {
-    pages.forEach(p => p.classList.remove('active'));
-    const page = document.getElementById('page-' + name);
-    if (page) page.classList.add('active');
-    currentPage = name;
-    setActiveLinks(name);
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    updateNav();
-    closeMobileMenu();
-    // Re-run all observers on the new page content
-    initReveal();
-    initSplitText();
-    initCurtains();
-    initSeams();
-    initStats();
-    initTilt();
-    initCursorTargets();
-    initMagnetic();
-    return;
-  }
   const fileMap = {
     home: 'index.html', about: 'about.html', categories: 'categories.html',
     services: 'services.html', brands: 'brands.html', contact: 'contact.html'
@@ -50,11 +34,11 @@ function setActiveLinks(name) {
    NAV — transparent at top on every page
    ══════════════════════════════════════════════ */
 function updateNav() {
-  if (window.scrollY < 80) {
-    nav.className = 'transparent';
-  } else {
-    nav.className = 'scrolled';
-  }
+  // Assigning className wholesale would drop menu-open, so toggle the two
+  // scroll states and leave any other state on the bar alone.
+  const atTop = window.scrollY < 80;
+  nav.classList.toggle('transparent', atTop);
+  nav.classList.toggle('scrolled', !atTop);
 }
 
 /* ══════════════════════════════════════════════
@@ -62,14 +46,22 @@ function updateNav() {
    ══════════════════════════════════════════════ */
 function openMobileMenu() {
   menuBtn.classList.add('open');
+  menuBtn.setAttribute('aria-expanded', 'true');
+  menuBtn.setAttribute('aria-label', 'Close menu');
   mobilePanel.classList.add('open');
   mobileBackdrop.classList.add('open');
+  // The bar sits above the drawer so the mark can morph in place; strip its
+  // scrolled pill while open or it floats as a white slab over the panel.
+  nav.classList.add('menu-open');
   document.body.style.overflow = 'hidden';
 }
 function closeMobileMenu() {
   menuBtn.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.setAttribute('aria-label', 'Open menu');
   mobilePanel.classList.remove('open');
   mobileBackdrop.classList.remove('open');
+  nav.classList.remove('menu-open');
   document.body.style.overflow = '';
 }
 function toggleMobileMenu() {
@@ -78,9 +70,14 @@ function toggleMobileMenu() {
 if (menuBtn) menuBtn.addEventListener('click', toggleMobileMenu);
 if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileMenu);
 
-// Close button inside panel
-const mobileCloseBtn = document.querySelector('.nav-mobile-close');
-if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
+// The mark is now the only dismiss control, so give the drawer the escape
+// route a keyboard user expects and hand focus back to what opened it.
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && mobilePanel.classList.contains('open')) {
+    closeMobileMenu();
+    menuBtn.focus();
+  }
+});
 
 /* ══════════════════════════════════════════════
    CUSTOM CURSOR with spring-lag physics
@@ -149,9 +146,14 @@ function initMagnetic() {
    3D TILT on category cards
    ══════════════════════════════════════════════ */
 function initTilt() {
-  if (window.matchMedia('(hover: none)').matches) return;
+  // Stacked layouts don't tilt. Guarding here means no inline transform is
+  // ever written to these cards, which is what lets the CSS drop an
+  // `!important` that was otherwise cancelling their entrance animation.
+  const flat = () => window.matchMedia('(hover: none)').matches || window.innerWidth <= 900;
+  if (flat()) return;
   document.querySelectorAll('.cat-card').forEach(card => {
     card.addEventListener('mousemove', e => {
+      if (flat()) return;   // re-checked, so resizing narrow can't re-introduce it
       const r  = card.getBoundingClientRect();
       const px = (e.clientX - r.left)  / r.width  - 0.5;  // -0.5 → 0.5
       const py = (e.clientY - r.top)   / r.height - 0.5;
@@ -225,7 +227,7 @@ function initSeams() {
    SCROLL REVEAL (base system)
    ══════════════════════════════════════════════ */
 function initReveal() {
-  const els = document.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible)');
+  const els = document.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .pop:not(.visible)');
   if (!els.length) return;
 
   const io = new IntersectionObserver(entries => {
@@ -244,51 +246,94 @@ function initReveal() {
    ANIMATED STAT COUNTERS (easeOutQuart)
    ══════════════════════════════════════════════ */
 function initStats() {
-  const cells = document.querySelectorAll('.stat-cell:not(.counted-init)');
-  if (!cells.length) return;
+  // Observe the number itself via [data-count] rather than a layout wrapper,
+  // so the count-up survives the section being re-laid-out around it.
+  const nums = document.querySelectorAll('[data-count]:not(.counted-init)');
+  if (!nums.length) return;
+
+  // Counting up IS motion, and CSS cannot switch off a JS animation — so
+  // honour the preference here and just print the final value.
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
       if (!en.isIntersecting) return;
-      const numEl  = en.target.querySelector('.stat-num');
-      if (!numEl) return;
+      const numEl  = en.target;
       const raw    = numEl.textContent.trim();
       const target = parseInt(raw.replace(/\D/g, ''), 10);
       const suffix = raw.replace(/[0-9]/g, '');
-      const dur    = 1800;
-      const t0     = performance.now();
+      io.unobserve(numEl);
+      if (!Number.isFinite(target)) return;
 
+      if (still) { numEl.textContent = target + suffix; return; }
+
+      const dur = 1800;
+      const t0  = performance.now();
       (function tick(t) {
-        const p      = Math.min((t - t0) / dur, 1);
-        const eased  = 1 - Math.pow(1 - p, 4);   // easeOutQuart
+        const p     = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);   // easeOutQuart
         numEl.textContent = Math.round(target * eased) + suffix;
         if (p < 1) requestAnimationFrame(tick);
-        else en.target.classList.add('counted');
+        else numEl.classList.add('counted');
       })(t0);
-
-      en.target.classList.add('counted-init');
-      io.unobserve(en.target);
     });
   }, { threshold: 0.6 });
 
-  cells.forEach(c => {
-    c.classList.add('counted-init');
-    io.observe(c);
+  nums.forEach(n => {
+    n.classList.add('counted-init');
+    io.observe(n);
   });
 }
 
 /* ══════════════════════════════════════════════
    INTRO IMAGE SLIDESHOW
    ══════════════════════════════════════════════ */
-(function() {
-  const slides = document.querySelectorAll('.intro-img-wrap .intro-img');
-  if (!slides.length) return;
-  let current = 0;
-  setInterval(() => {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 4200);
+(function initSlideshow() {
+  const wrap = document.querySelector('.intro-img-wrap');
+  if (!wrap) return;
+  const slides = wrap.querySelectorAll('.intro-img');
+  if (slides.length < 2) return;
+
+  const FADE  = 750;    // keep in step with .intro-img's transition duration
+  const DWELL = 3400;   // how long a frame holds before the next fade starts
+
+  let current = 0, inView = false, timer = null;
+
+  // Decode the next frame ahead of time. These files are 460-720KB, so an
+  // undecoded image can otherwise land mid-fade as a blank rectangle.
+  const warm = i => { const im = slides[i]; if (im.decode) im.decode().catch(() => {}); };
+
+  function advance() {
+    const outgoing = slides[current];
+    const next = (current + 1) % slides.length;
+    // Outgoing holds opaque beneath; incoming fades in above it.
+    outgoing.classList.add('holding');
+    outgoing.classList.remove('active');
+    slides[next].classList.add('active');
+    setTimeout(() => outgoing.classList.remove('holding'), FADE);
+    current = next;
+    warm((next + 1) % slides.length);
+  }
+
+  // A slideshow is motion, and it is also work: don't cycle it when it is
+  // scrolled away, when the tab is in the background, or when the reader has
+  // asked for less movement.
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function sync() {
+    const shouldRun = inView && !document.hidden && !still.matches;
+    if (shouldRun && !timer) timer = setInterval(advance, DWELL);
+    else if (!shouldRun && timer) { clearInterval(timer); timer = null; }
+  }
+
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    sync();
+  }, { threshold: 0.15 }).observe(wrap);
+
+  document.addEventListener('visibilitychange', sync);
+  if (still.addEventListener) still.addEventListener('change', sync);
+
+  warm(1);
 })();
 
 /* ══════════════════════════════════════════════
