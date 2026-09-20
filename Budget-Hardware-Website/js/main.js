@@ -53,6 +53,7 @@ function openMobileMenu() {
   // The bar sits above the drawer so the mark can morph in place; strip its
   // scrolled pill while open or it floats as a white slab over the panel.
   nav.classList.add('menu-open');
+  document.body.classList.add('wa-hide');
   document.body.style.overflow = 'hidden';
 }
 function closeMobileMenu() {
@@ -62,6 +63,7 @@ function closeMobileMenu() {
   mobilePanel.classList.remove('open');
   mobileBackdrop.classList.remove('open');
   nav.classList.remove('menu-open');
+  document.body.classList.remove('wa-hide');
   document.body.style.overflow = '';
 }
 function toggleMobileMenu() {
@@ -380,6 +382,31 @@ window.addEventListener('scroll', () => {
 window.addEventListener('scroll', updateNav, { passive: true });
 
 /* ══════════════════════════════════════════════
+   WHATSAPP FLOAT — show only past the hero
+   Watches whichever hero this page ships; pages without one fall back to a
+   viewport-height scroll threshold so the bubble never sits over a banner.
+   ══════════════════════════════════════════════ */
+function initWhatsApp() {
+  const wa = document.getElementById('waFloat');
+  if (!wa) return;
+
+  const hero = document.querySelector('.hero, .about-hero, .band-hero, .cats-page-hero');
+  const show = on => wa.classList.toggle('visible', on);
+
+  if (hero && 'IntersectionObserver' in window) {
+    // Fires on the hero's bottom edge leaving the top of the viewport.
+    new IntersectionObserver(([e]) => {
+      show(!e.isIntersecting && e.boundingClientRect.top < 0);
+    }, { threshold: 0 }).observe(hero);
+    return;
+  }
+
+  const onScroll = () => show(window.scrollY > window.innerHeight * 0.7);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+/* ══════════════════════════════════════════════
    INIT EVERYTHING
    ══════════════════════════════════════════════ */
 setActiveLinks(currentPage);
@@ -394,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTilt();
   initCursorTargets();
   initMagnetic();
+  initWhatsApp();
 });
 // Guard: also fire immediately if DOM already parsed
 if (document.readyState !== 'loading') {
@@ -405,4 +433,5 @@ if (document.readyState !== 'loading') {
   initTilt();
   initCursorTargets();
   initMagnetic();
+  initWhatsApp();
 }

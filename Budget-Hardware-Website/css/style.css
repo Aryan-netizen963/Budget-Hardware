@@ -1430,3 +1430,43 @@ a.cat-card:focus-visible { outline-color: var(--blue-light); }
   .marquee-track { animation: none; }
   .hero-bg { animation: none; }
 }
+/* ══════════════════════════════════════════════
+   WHATSAPP FLOAT — hidden over the hero, rises in once
+   the hero has scrolled away (see initWhatsApp in main.js)
+   ══════════════════════════════════════════════ */
+.wa-float {
+  position: fixed; z-index: 150;
+  right: clamp(16px, 4vw, 34px);
+  bottom: clamp(16px, 4vw, 34px);
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #25D366; color: #fff;
+  box-shadow: 0 10px 30px rgba(7,25,40,0.28);
+  text-decoration: none;
+  /* Parked out of reach until .visible lands, so it can't be tabbed to or
+     clicked while it is invisible over the hero. */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(18px) scale(0.85);
+  transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
+              transform 0.45s cubic-bezier(0.16,1,0.3,1),
+              visibility 0s linear 0.45s,
+              box-shadow 0.3s, background 0.3s;
+}
+.wa-float.visible {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateY(0) scale(1);
+  transition-delay: 0s;
+}
+.wa-float:hover { background: #1FB955; box-shadow: 0 14px 38px rgba(37,211,102,0.42); }
+.wa-float:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 4px; }
+.wa-float svg { width: 28px; height: 28px; fill: currentColor; }
+
+/* The drawer covers the page, so the bubble steps out of its way. */
+body.wa-hide .wa-float { opacity: 0; pointer-events: none; transform: translateY(18px) scale(0.85); }
+
+@media (max-width: 600px) { .wa-float { width: 52px; height: 52px; } .wa-float svg { width: 26px; height: 26px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float { transform: none; }
+  .wa-float.visible { transform: none; }
+}
