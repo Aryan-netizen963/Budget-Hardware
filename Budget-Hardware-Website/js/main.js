@@ -382,28 +382,42 @@ window.addEventListener('scroll', () => {
 window.addEventListener('scroll', updateNav, { passive: true });
 
 /* ══════════════════════════════════════════════
-   WHATSAPP FLOAT — show only past the hero
-   Watches whichever hero this page ships; pages without one fall back to a
-   viewport-height scroll threshold so the bubble never sits over a banner.
+   WHATSAPP FLOAT — show once the hero is half scrolled away
+   An IntersectionObserver can't express a threshold measured in the hero's
+   own height, so this reads the rect directly and throttles on rAF.
+   Pages without a hero fall back to half a viewport.
    ══════════════════════════════════════════════ */
 function initWhatsApp() {
   const wa = document.getElementById('waFloat');
   if (!wa) return;
 
   const hero = document.querySelector('.hero, .about-hero, .band-hero, .cats-page-hero');
-  const show = on => wa.classList.toggle('visible', on);
+  let queued = false;
 
-  if (hero && 'IntersectionObserver' in window) {
-    // Fires on the hero's bottom edge leaving the top of the viewport.
-    new IntersectionObserver(([e]) => {
-      show(!e.isIntersecting && e.boundingClientRect.top < 0);
-    }, { threshold: 0 }).observe(hero);
-    return;
+  function measure() {
+    queued = false;
+    let past;
+    if (hero) {
+      const r = hero.getBoundingClientRect();
+      // Top edge has travelled more than half the hero's height past the
+      // top of the viewport. Reading height each time keeps it correct
+      // when the hero reflows on resize or orientation change.
+      past = r.top <= -(r.height / 2);
+    } else {
+      past = window.scrollY > window.innerHeight * 0.5;
+    }
+    wa.classList.toggle('visible', past);
   }
 
-  const onScroll = () => show(window.scrollY > window.innerHeight * 0.7);
+  function onScroll() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(measure);
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  window.addEventListener('resize', onScroll, { passive: true });
+  measure();
 }
 
 /* ══════════════════════════════════════════════
